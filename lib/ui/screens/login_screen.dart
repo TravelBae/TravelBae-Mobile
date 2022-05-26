@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
+import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
+import 'package:travelbae_android/ui/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -64,7 +66,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const CustomBottomNavbar()));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(primary_40),
                   ),
@@ -86,7 +91,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text("Need an account?"),
                     SizedBox(width: 4),
-                    Text("Register", style: TextStyle(color: primary_40)),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const RegisterScreen()));
+                        },
+                        child: Text("Register",
+                            style: TextStyle(color: primary_40))),
                   ],
                 ),
               ),

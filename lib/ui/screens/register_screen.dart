@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
+import 'package:travelbae_android/ui/screens/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -84,7 +85,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: double.infinity,
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(primary_40),
                     ),

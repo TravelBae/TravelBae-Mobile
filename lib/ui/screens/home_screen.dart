@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/ui/screens/detail_place_screen.dart';
+import 'package:travelbae_android/ui/screens/explore_dest_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -41,7 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: double.infinity,
                   height: 81,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              const ExploreDestinationPage()));
+                    },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(primary_40),
                         shape: MaterialStateProperty
@@ -195,36 +201,42 @@ class _HomeScreenState extends State<HomeScreen> {
         side: BorderSide(color: neutral_30, width: 1),
         borderRadius: BorderRadius.circular(16.0),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            child: Image.asset(
-              'asets/illus/image-sample.png',
-              height: 200,
-              width: 220,
-              fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const DetailPlacePage()));
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              child: Image.asset(
+                'asets/illus/image-sample.png',
+                height: 200,
+                width: 220,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Sawah Telkom",
-                  style: text_base_bold,
-                ),
-                Text(
-                  "Buah batu, Bandung",
-                  style: TextStyle(
-                    color: neutral_40,
+            Padding(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Sawah Telkom",
+                    style: text_base_bold,
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
+                  Text(
+                    "Buah batu, Bandung",
+                    style: TextStyle(
+                      color: neutral_40,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

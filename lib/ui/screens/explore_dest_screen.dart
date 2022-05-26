@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/ui/screens/explore_category_screen.dart';
 
 class ExploreDestinationPage extends StatefulWidget {
   const ExploreDestinationPage({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _ExploreDestinationPageState extends State<ExploreDestinationPage> {
             mainAxisSize: MainAxisSize.max,
             children: [
               SizedBox(
-                height: 280,
+                height: 180,
               ),
               Text("where is your travel destination?", style: text_2xl_bold),
               SizedBox(
@@ -50,7 +51,10 @@ class _ExploreDestinationPageState extends State<ExploreDestinationPage> {
       height: 52,
       margin: EdgeInsets.only(bottom: 24),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ExploreCategoryPage()));
+        },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(primary_40),
         ),

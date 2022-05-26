@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/ui/screens/detail_place_screen.dart';
+import 'package:travelbae_android/ui/screens/ticket_detail_screen.dart';
 
 class MyOrderPage extends StatefulWidget {
   const MyOrderPage({Key? key}) : super(key: key);
@@ -39,12 +41,12 @@ class _MyOrderPageState extends State<MyOrderPage> {
                 SingleChildScrollView(
                   child: Column(
                     children: [
-                      CardTourPlace(),
-                      CardTourPlace(),
-                      CardTourPlace(),
-                      CardTourPlace(),
-                      CardTourPlace(),
-                      CardTourPlace(),
+                      CardTourPlace(context),
+                      CardTourPlace(context),
+                      CardTourPlace(context),
+                      CardTourPlace(context),
+                      CardTourPlace(context),
+                      CardTourPlace(context),
                     ],
                   ),
                 )
@@ -57,7 +59,7 @@ class _MyOrderPageState extends State<MyOrderPage> {
   }
 }
 
-Widget CardTourPlace() {
+Widget CardTourPlace(BuildContext context) {
   return Container(
     decoration: BoxDecoration(
       color: neutral_20,
@@ -65,70 +67,77 @@ Widget CardTourPlace() {
     ),
     padding: EdgeInsets.all(12),
     margin: EdgeInsets.only(bottom: 24),
-    child: Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset(
-                  ticket,
-                  height: 24,
-                  width: 24,
-                  fit: BoxFit.scaleDown,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Order ID:",
-                  style: text_base_bold,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "ID_203",
-                  style: text_base,
-                ),
-              ],
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: success_30,
-                borderRadius: BorderRadius.circular(4),
+    child: GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const TicketDetailPage()));
+      },
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    ticket,
+                    height: 24,
+                    width: 24,
+                    fit: BoxFit.scaleDown,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    "Order ID:",
+                    style: text_base_bold,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    "ID_203",
+                    style: text_base,
+                  ),
+                ],
               ),
-              padding: EdgeInsets.all(4),
-              child: Text(
-                "Pending",
-                style: TextStyle(color: neutral_10),
+              Container(
+                decoration: BoxDecoration(
+                  color: neutral_40,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                padding: EdgeInsets.all(4),
+                child: Text(
+                  "Pending",
+                  style: TextStyle(color: neutral_10),
+                ),
               ),
-            ),
-          ],
-        ),
-        Container(
-          padding: const EdgeInsets.only(top: 12),
-          decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: neutral_30, width: 1))),
-        ),
-        SizedBox(
-          height: 16,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Nama Tempat",
-              style: text_lg_bold,
-            ),
-            Text(
-              "Tanggal",
-              style: text_sm,
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 12),
+            decoration: BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(color: neutral_30, width: 1))),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Nama Tempat",
+                style: text_lg_bold,
+              ),
+              Text(
+                "Tanggal",
+                style: text_sm,
+              ),
+            ],
+          ),
+        ],
+      ),
     ),
   );
 }

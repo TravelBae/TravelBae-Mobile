@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/ui/screens/detail_place_screen.dart';
+import 'package:travelbae_android/ui/screens/explore_dest_screen.dart';
 
 class RecomendationScreen extends StatefulWidget {
   const RecomendationScreen({Key? key}) : super(key: key);
@@ -28,11 +30,17 @@ class _RecomendationScreenState extends State<RecomendationScreen> {
               ),
               Container(
                 alignment: Alignment.topLeft,
-                child: SvgPicture.asset(
-                  ticket,
-                  height: 32,
-                  width: 32,
-                  fit: BoxFit.scaleDown,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ExploreDestinationPage()));
+                  },
+                  child: SvgPicture.asset(
+                    iconBack,
+                    height: 32,
+                    width: 32,
+                    fit: BoxFit.scaleDown,
+                  ),
                 ),
               ),
               SizedBox(
@@ -45,8 +53,6 @@ class _RecomendationScreenState extends State<RecomendationScreen> {
               SingleChildScrollView(
                 child: Column(
                   children: [
-                    customCard(),
-                    customCard(),
                     customCard(),
                     customCard(),
                     customCard(),
@@ -64,46 +70,52 @@ class _RecomendationScreenState extends State<RecomendationScreen> {
   Widget customCard() {
     return Column(
       children: [
-        Row(
-          children: [
-            Column(
-              children: [
-                Container(
-                  height: 72,
-                  width: 72,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: primary_30,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      'asets/illus/image-sample.png',
-                      height: 200,
-                      width: 220,
-                      fit: BoxFit.cover,
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const DetailPlacePage()));
+          },
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    height: 72,
+                    width: 72,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: primary_30,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        'asets/illus/image-sample.png',
+                        height: 200,
+                        width: 220,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 16,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Nama event",
-                  style: text_base_bold,
-                ),
-                Text(
-                  "Description about tour place here...",
-                  style: text_sm,
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Nama event",
+                    style: text_base_bold,
+                  ),
+                  Text(
+                    "Description about tour place here...",
+                    style: text_sm,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
         SizedBox(
           height: 16,

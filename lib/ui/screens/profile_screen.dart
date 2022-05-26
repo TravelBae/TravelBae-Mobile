@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
+import 'package:travelbae_android/ui/screens/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -122,7 +123,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(neutral_20),
                   ),

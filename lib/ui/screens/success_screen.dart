@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
 
 class SuccessScreen extends StatefulWidget {
   const SuccessScreen({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
             mainAxisSize: MainAxisSize.max,
             children: [
               SizedBox(
-                height: 200,
+                height: 140,
               ),
               Image.asset(
                 'asets/illus/illus-3.png',
@@ -42,7 +43,10 @@ class _SuccessScreenState extends State<SuccessScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const CustomBottomNavbar()));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(primary_40),
                   ),

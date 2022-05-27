@@ -8,6 +8,7 @@ import 'package:travelbae_android/ui/screens/register_screen.dart';
 import 'package:travelbae_android/ui/screens/profile_screen.dart';
 import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
 import 'package:travelbae_android/ui/screens/detail_place_screen.dart';
+import 'package:travelbae_android/ui/screens/ticket_detail_screen.dart';
 
 void main() {
   runApp(const MyApp());

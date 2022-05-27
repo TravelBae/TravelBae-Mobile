@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
-import 'package:travelbae_android/ui/screens/home_screen.dart';
-import 'package:travelbae_android/ui/screens/profile_screen.dart';
-import 'package:travelbae_android/ui/screens/my_order_screen.dart';
 
 class CustomDropdown extends StatefulWidget {
   const CustomDropdown({Key? key}) : super(key: key);

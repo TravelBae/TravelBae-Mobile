@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
+import 'package:travelbae_android/ui/screens/change_password_screen.dart';
+import 'package:travelbae_android/ui/screens/edit_profile_screen.dart';
 import 'package:travelbae_android/ui/screens/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -63,7 +65,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const EditProfileScreen()));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(neutral_20),
                   ),
@@ -93,7 +98,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ChangePasswordScreen()));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(neutral_20),
                   ),

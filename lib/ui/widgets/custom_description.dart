@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:travelbae_android/styleGuide.dart';
-import 'package:travelbae_android/ui/screens/home_screen.dart';
-import 'package:travelbae_android/ui/screens/profile_screen.dart';
-import 'package:travelbae_android/ui/screens/my_order_screen.dart';
 
 class CustomDescription extends StatefulWidget {
   final String text;

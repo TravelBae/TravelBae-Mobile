@@ -4,11 +4,13 @@ import 'package:travelbae_android/styleGuide.dart';
 class CustomFormField extends StatefulWidget {
   String label, placeholder;
   bool isPassword;
+  TextEditingController controller;
 
   CustomFormField(
       {required this.label,
       required this.placeholder,
       required this.isPassword,
+      required this.controller,
       Key? key})
       : super(key: key);
 
@@ -28,8 +30,9 @@ class _CustomFormFieldState extends State<CustomFormField> {
           padding: EdgeInsets.only(top: 12, bottom: 4),
           child: Text(widget.label, style: text_xs_bold),
         ),
-        TextField(
+        TextFormField(
           style: text_xs,
+          controller: widget.controller,
           obscureText: isHidden,
           decoration: InputDecoration(
               hintText: widget.placeholder,

@@ -49,6 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(
                   children: [
                     CustomFormField(
+                        controller: TextEditingController(),
                         label: "Name",
                         placeholder: "Enter your name...",
                         isPassword: false)
@@ -57,6 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(
                   children: [
                     CustomFormField(
+                        controller: TextEditingController(),
                         label: "Phone Number",
                         placeholder: "62+",
                         isPassword: false)
@@ -65,6 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(
                   children: [
                     CustomFormField(
+                        controller: TextEditingController(),
                         label: "Email",
                         placeholder: "example@gmail.com",
                         isPassword: false)
@@ -73,6 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(
                   children: [
                     CustomFormField(
+                        controller: TextEditingController(),
                         label: "Password",
                         placeholder: "Enter your password...",
                         isPassword: true)

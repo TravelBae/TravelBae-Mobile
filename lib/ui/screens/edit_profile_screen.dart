@@ -59,6 +59,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Column(
                   children: [
                     CustomFormField(
+                        controller: TextEditingController(),
                         label: "Username",
                         placeholder: "Indra Kenzzz",
                         isPassword: false)
@@ -67,6 +68,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Column(
                   children: [
                     CustomFormField(
+                        controller: TextEditingController(),
                         label: "Phone Number",
                         placeholder: "6285212341234",
                         isPassword: false)
@@ -75,6 +77,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Column(
                   children: [
                     CustomFormField(
+                        controller: TextEditingController(),
                         label: "Email",
                         placeholder: "kenz@gmail.com",
                         isPassword: false)

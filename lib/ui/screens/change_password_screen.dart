@@ -60,6 +60,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 Column(
                   children: [
                     CustomFormField(
+                        controller: TextEditingController(),
                         label: "Password",
                         placeholder: "Enter your password ...",
                         isPassword: true)
@@ -68,6 +69,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 Column(
                   children: [
                     CustomFormField(
+                        controller: TextEditingController(),
                         label: "Confirm Password",
                         placeholder: "Enter your password ...",
                         isPassword: true)

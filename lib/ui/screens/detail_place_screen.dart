@@ -60,9 +60,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                       margin: const EdgeInsets.only(left: 24, top: 32),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  const CustomBottomNavbar()));
+                          Navigator.of(context).pop();
                         },
                         child: SvgPicture.asset(
                           iconDetailBack,

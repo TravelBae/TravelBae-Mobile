@@ -3,27 +3,36 @@ import 'package:travelbae_android/styleGuide.dart';
 import 'package:travelbae_android/ui/screens/home_screen.dart';
 import 'package:travelbae_android/ui/screens/profile_screen.dart';
 import 'package:travelbae_android/ui/screens/my_order_screen.dart';
+import 'package:travelbae_android/ui/screens/login_screen.dart';
 
 class CustomBottomNavbar extends StatefulWidget {
-  const CustomBottomNavbar({Key? key}) : super(key: key);
+  String username;
+  int pageindex;
+  CustomBottomNavbar(
+      {required this.pageindex, required this.username, Key? key})
+      : super(key: key);
 
   @override
   State<CustomBottomNavbar> createState() => _CustomBottomNavbarState();
 }
 
 class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
-  int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    MyOrderPage(),
-    ProfileScreen(),
-  ];
+  late List<Widget> _widgetOptions;
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions = [
+      HomeScreen(username: widget.username),
+      MyOrderPage(),
+      ProfileScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      widget.pageindex = index;
     });
   }
 
@@ -31,7 +40,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.elementAt(widget.pageindex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -48,7 +57,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             label: 'Profile',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: widget.pageindex,
         selectedItemColor: primary_40,
         unselectedItemColor: neutral_40,
         onTap: _onItemTapped,

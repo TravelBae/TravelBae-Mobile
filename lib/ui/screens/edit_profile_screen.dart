@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
+import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
 import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
 import 'package:travelbae_android/ui/screens/profile_screen.dart';
 
@@ -36,8 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ProfileScreen()));
+                    Navigator.of(context).pop();
                   },
                   child: SvgPicture.asset(
                     iconBack,
@@ -95,8 +93,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const ProfileScreen()));
+                            Navigator.of(context).pop();
                           },
                           style: ButtonStyle(
                             backgroundColor:
@@ -126,7 +123,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const ProfileScreen()));
+                                builder: (context) => CustomBottomNavbar(
+                                      pageindex: 2,
+                                      username: '',
+                                    )));
                           },
                           style: ButtonStyle(
                             backgroundColor:

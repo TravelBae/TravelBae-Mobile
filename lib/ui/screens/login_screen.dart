@@ -22,14 +22,15 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity, // container full
-            margin: EdgeInsets.symmetric(horizontal: 24), // margin kanan kiri
+            margin:
+                const EdgeInsets.symmetric(horizontal: 24), // margin kanan kiri
             color: neutral_10,
             child: Column(
               //---TINGGAL EDIT DIBAWAH SINI---
               mainAxisSize:
                   MainAxisSize.max, // max: fill container, min: hug content
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 Image.asset(
@@ -37,10 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 172,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 4),
+                  padding: const EdgeInsets.only(top: 4),
                   child: Text("Welcome Back", style: text_lg_bold),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(bottom: 24),
                   child: Text(
                     "please sign in to continue",
@@ -53,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomFormField(
                         controller: unameController,
                         label: "Username",
-                        key: Key("_username"),
+                        key: const Key("_username"),
                         placeholder: "Enter your username...",
                         isPassword: false)
                   ],
@@ -63,12 +64,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomFormField(
                         controller: passController,
                         label: "Password",
-                        key: Key("_password"),
+                        key: const Key("_password"),
                         placeholder: "Enter your password...",
                         isPassword: true)
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 32,
                 ),
                 SizedBox(
@@ -82,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: MaterialStateProperty.all(primary_40),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Text(
                         "Login",
                         style: text_base_bold,
@@ -90,22 +91,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 SizedBox(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Need an account?"),
-                      SizedBox(width: 4),
+                      const Text("Need an account?"),
+                      const SizedBox(width: 4),
                       GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => const RegisterScreen()));
                           },
-                          child: Text("Register",
-                              style: TextStyle(color: primary_40))),
+                          child: const Text("Register",
+                              style: const TextStyle(color: primary_40))),
                     ],
                   ),
                 ),
@@ -128,7 +129,10 @@ class _LoginScreenState extends State<LoginScreen> {
               }));
       if (response.statusCode == 200) {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const CustomBottomNavbar()));
+            builder: (context) => CustomBottomNavbar(
+                  pageindex: 0,
+                  username: unameController.text,
+                )));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text(

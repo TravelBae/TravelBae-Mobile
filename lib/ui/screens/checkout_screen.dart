@@ -34,8 +34,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const DetailPlacePage()));
+                    Navigator.of(context).pop();
                   },
                   child: SvgPicture.asset(
                     iconBack,

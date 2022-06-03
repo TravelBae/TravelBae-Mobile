@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
+import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
 import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
 import 'package:travelbae_android/ui/screens/login_screen.dart';
 import 'package:travelbae_android/ui/screens/profile_screen.dart';
@@ -37,8 +38,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ProfileScreen()));
+                    Navigator.of(context).pop();
                   },
                   child: SvgPicture.asset(
                     iconBack,
@@ -86,7 +86,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ProfileScreen()));
+                            builder: (context) => CustomBottomNavbar(
+                                  pageindex: 2,
+                                  username: '',
+                                )));
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(primary_40),

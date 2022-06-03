@@ -6,7 +6,8 @@ import 'package:travelbae_android/ui/screens/detail_place_screen.dart';
 import 'package:travelbae_android/ui/screens/explore_dest_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  String username;
+  HomeScreen({required this.username, Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // HEADER
                 Text("Welcome!", style: text_base_bold),
-                Text("Indra Kenzzz", style: text_2xl_bold),
+                Text(widget.username, style: text_2xl_bold),
                 SizedBox(
                   height: 32,
                 ),

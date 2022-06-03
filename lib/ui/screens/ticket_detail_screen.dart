@@ -35,7 +35,10 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const CustomBottomNavbar()));
+                        builder: (context) => CustomBottomNavbar(
+                              pageindex: 1,
+                              username: '',
+                            )));
                   },
                   child: SvgPicture.asset(
                     iconBack,

@@ -45,7 +45,10 @@ class _SuccessScreenState extends State<SuccessScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const CustomBottomNavbar()));
+                        builder: (context) => CustomBottomNavbar(
+                              pageindex: 0,
+                              username: '',
+                            )));
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(primary_40),

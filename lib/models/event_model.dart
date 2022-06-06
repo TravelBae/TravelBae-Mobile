@@ -1,7 +1,7 @@
 class Event {
   final int id;
   final String nama_event;
-  final int kategori;
+  final String kategori;
   final String tipe;
   final String regulasi;
   final int stok;
@@ -26,13 +26,13 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
       id: json['id'] as int,
-      nama_event: json['nama_tempat'] as String,
-      kategori: json['kategori'] as int,
+      nama_event: json['nama_event'] as String,
+      kategori: json['kategori'] as String,
       tipe: json['tipe'] as String,
-      regulasi: json['deskripsi'] as String,
-      stok: json['stok_tiket'] as int,
+      regulasi: json['regulasi'] as String,
+      stok: json['stok'] as int,
       harga: json['harga'] as int,
-      jammulai: json['jam_buka'] as String,
+      jammulai: json['jam_mulai'] as String,
       alamat: json['alamat'] as String,
       img_tempat: json['img_tempat'] as String,
     );

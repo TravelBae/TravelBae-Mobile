@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/ui/screens/detail_place_screen.dart';
+import 'package:travelbae_android/ui/screens/detail_event_screen.dart';
 import 'package:travelbae_android/ui/screens/explore_dest_screen.dart';
 
 Future<List<Tourplace>> fetchTourplace(http.Client client, String token) async {
@@ -20,11 +21,11 @@ Future<List<Tourplace>> fetchTourplace(http.Client client, String token) async {
 }
 
 Future<List<Event>> fetchEvent(http.Client client, String token) async {
-  final response = await client
-      .get(Uri.parse('http://10.0.2.2:8000/api/tourplaces'), headers: {
-    'Accept': 'application/json',
-    'Authorization': 'Bearer ' + token
-  });
+  final response = await client.get(Uri.parse('http://10.0.2.2:8000/api/event'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + token
+      });
   return compute(parseEvent, response.body);
 }
 
@@ -219,10 +220,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       "Newest Event",
                       style: text_xl_bold,
                     ),
-                    Text(
-                      "See all",
-                      style: text_xs,
-                    ),
                   ],
                 ),
                 const SizedBox(
@@ -265,71 +262,79 @@ class EventList extends StatelessWidget {
         child: ListView.builder(
             itemCount: events.length,
             itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            height: 72,
-                            width: 72,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: primary_30,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => DetailEventPage(
+                            event: events[index],
+                          )));
+                },
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              height: 72,
+                              width: 72,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: primary_30,
+                              ),
+                              child: Image.network(
+                                events[index].img_tempat,
+                                height: 200,
+                                width: 220,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                            child: Image.network(
-                              events[index].img_tempat,
-                              height: 200,
-                              width: 220,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                              child: events[index].nama_event.length < 28
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                                child: events[index].nama_event.length < 28
+                                    ? Text(
+                                        events[index].nama_event,
+                                        style: text_base_bold,
+                                      )
+                                    : Text(
+                                        events[index]
+                                                .nama_event
+                                                .substring(0, 23) +
+                                            '...',
+                                        style: text_base_bold,
+                                      )),
+                            Container(
+                              child: events[index].alamat.length < 41
                                   ? Text(
-                                      events[index].nama_event,
-                                      style: text_base_bold,
+                                      events[index].alamat,
+                                      style: const TextStyle(
+                                        color: neutral_40,
+                                      ),
                                     )
                                   : Text(
-                                      events[index]
-                                              .nama_event
-                                              .substring(0, 23) +
+                                      events[index].alamat.substring(0, 36) +
                                           '...',
-                                      style: text_base_bold,
-                                    )),
-                          Container(
-                            child: events[index].alamat.length < 43
-                                ? Text(
-                                    events[index].alamat,
-                                    style: const TextStyle(
-                                      color: neutral_40,
+                                      style: const TextStyle(
+                                        color: neutral_40,
+                                      ),
                                     ),
-                                  )
-                                : Text(
-                                    events[index].alamat.substring(0, 38) +
-                                        '...',
-                                    style: const TextStyle(
-                                      color: neutral_40,
-                                    ),
-                                  ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  ],
+                ),
               );
             }),
       ),

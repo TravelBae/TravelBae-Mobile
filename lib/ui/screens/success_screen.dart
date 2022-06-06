@@ -48,6 +48,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
                         builder: (context) => CustomBottomNavbar(
                               pageindex: 0,
                               username: '',
+                              token: '',
                             )));
                   },
                   style: ButtonStyle(

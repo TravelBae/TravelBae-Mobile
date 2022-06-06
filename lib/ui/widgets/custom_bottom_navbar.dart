@@ -8,8 +8,12 @@ import 'package:travelbae_android/ui/screens/login_screen.dart';
 class CustomBottomNavbar extends StatefulWidget {
   String username;
   int pageindex;
+  String token;
   CustomBottomNavbar(
-      {required this.pageindex, required this.username, Key? key})
+      {required this.pageindex,
+      required this.username,
+      required this.token,
+      Key? key})
       : super(key: key);
 
   @override
@@ -24,7 +28,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   void initState() {
     super.initState();
     _widgetOptions = [
-      HomeScreen(username: widget.username),
+      HomeScreen(username: widget.username, token: widget.token),
       MyOrderPage(),
       ProfileScreen(),
     ];

@@ -4,18 +4,17 @@ import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/ui/widgets/custom_description.dart';
 import 'package:travelbae_android/ui/screens/checkout_screen.dart';
-import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
+import 'package:travelbae_android/models/tourplace_model.dart';
 
 class DetailPlacePage extends StatefulWidget {
-  const DetailPlacePage({Key? key}) : super(key: key);
+  Tourplace tourplace;
+  DetailPlacePage({required this.tourplace, Key? key}) : super(key: key);
 
   @override
   State<DetailPlacePage> createState() => _DetailPlacePageState();
 }
 
 class _DetailPlacePageState extends State<DetailPlacePage> {
-  final String desc =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +31,8 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                 Stack(
                   children: <Widget>[
                     Stack(children: <Widget>[
-                      Image.asset(
-                        'asets/illus/image-sample.png',
+                      Image.network(
+                        widget.tourplace.img_tempat,
                         height: 428,
                         width: 420,
                         fit: BoxFit.cover,
@@ -71,13 +70,13 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(left: 24, top: 325),
+                      margin: const EdgeInsets.only(left: 24, top: 300),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             padding: const EdgeInsets.only(bottom: 10),
-                            child: Text('Sawah Telkom',
+                            child: Text(widget.tourplace.nama_tempat,
                                 style: TextStyle(
                                     color: neutral_10,
                                     fontSize: 32,
@@ -85,13 +84,14 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                           ),
                           Container(
                             padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: primary_40,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15))),
                             child: Text(
-                              'Category 1',
-                              style: TextStyle(fontSize: 14, color: neutral_10),
+                              widget.tourplace.kategori.toString(),
+                              style: const TextStyle(
+                                  fontSize: 14, color: neutral_10),
                             ),
                           )
                         ],
@@ -101,23 +101,23 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                 ),
 
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 24),
+                  margin: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // DETAIL
-                      SizedBox(
+                      const SizedBox(
                         height: 24,
                       ),
                       // ABOUT
                       Text("About", style: text_xl_bold),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
 
                       // DESC
-                      new CustomDescription(text: desc),
-                      SizedBox(
+                      CustomDescription(text: widget.tourplace.deskripsi),
+                      const SizedBox(
                         height: 16,
                       ),
 
@@ -131,9 +131,12 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                             fit: BoxFit.scaleDown,
                           ),
                           Container(
-                              padding: EdgeInsets.only(left: 8),
-                              child: Text("Jl. Sukabirus, Bojongsoang, Bandung",
-                                  style: text_base)),
+                              padding: const EdgeInsets.only(left: 8),
+                              child: SizedBox(
+                                width: 320,
+                                child: Text(widget.tourplace.alamat,
+                                    style: text_base),
+                              )),
                         ],
                       ),
                       // TIME
@@ -146,15 +149,18 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                             fit: BoxFit.scaleDown,
                           ),
                           Container(
-                              padding: EdgeInsets.only(left: 8),
-                              child: Text("10.00 WIB", style: text_base)),
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Text(
+                                  widget.tourplace.jambuka.substring(0, 5) +
+                                      ' WIB',
+                                  style: text_base)),
                         ],
                       ),
                     ],
                   ),
                 ),
                 // MORE INFO
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 Row(
@@ -164,14 +170,15 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                       children: [
                         Container(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
+                          child: const Text(
                             'Available ticket',
                             style: TextStyle(fontSize: 12, color: neutral_40),
                           ),
                         ),
                         Text(
-                          '300',
-                          style: TextStyle(fontSize: 24, color: neutral_60),
+                          widget.tourplace.stoktiket.toString(),
+                          style:
+                              const TextStyle(fontSize: 24, color: neutral_60),
                         )
                       ],
                     ),
@@ -187,14 +194,15 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                       children: [
                         Container(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
+                          child: const Text(
                             'Ticket Price',
                             style: TextStyle(fontSize: 12, color: neutral_40),
                           ),
                         ),
                         Text(
-                          'Rp. 150.000',
-                          style: TextStyle(fontSize: 23, color: neutral_60),
+                          'Rp ' + widget.tourplace.harga.toString(),
+                          style:
+                              const TextStyle(fontSize: 23, color: neutral_60),
                         )
                       ],
                     ),
@@ -202,11 +210,11 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                 ),
 
                 // BUTTON
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 24),
+                  margin: const EdgeInsets.symmetric(horizontal: 24),
                   child: SizedBox(
                     width: double.infinity,
                     height: 48,
@@ -219,7 +227,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                         backgroundColor: MaterialStateProperty.all(primary_40),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Text(
                           "Buy Now",
                           style: text_base_bold,
@@ -228,7 +236,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 32,
                 ),
               ],

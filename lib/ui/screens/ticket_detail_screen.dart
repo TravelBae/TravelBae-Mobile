@@ -38,6 +38,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                         builder: (context) => CustomBottomNavbar(
                               pageindex: 1,
                               username: '',
+                              token: '',
                             )));
                   },
                   child: SvgPicture.asset(

@@ -89,6 +89,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             builder: (context) => CustomBottomNavbar(
                                   pageindex: 2,
                                   username: '',
+                                  token: '',
                                 )));
                       },
                       style: ButtonStyle(

@@ -126,6 +126,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 builder: (context) => CustomBottomNavbar(
                                       pageindex: 2,
                                       username: '',
+                                      token: '',
                                     )));
                           },
                           style: ButtonStyle(

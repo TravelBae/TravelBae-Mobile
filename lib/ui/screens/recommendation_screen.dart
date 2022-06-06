@@ -71,10 +71,10 @@ class _RecomendationScreenState extends State<RecomendationScreen> {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const DetailPlacePage()));
-          },
+          //onTap: () {
+          //  Navigator.of(context).push(MaterialPageRoute(
+          //      builder: (context) => DetailPlacePage()));
+          //},
           child: Row(
             children: [
               Column(

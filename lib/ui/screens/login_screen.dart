@@ -1,8 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travelbae_android/models/tourplace_model.dart';
+import 'dart:convert';
+import 'dart:async';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
 import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
 import 'package:travelbae_android/ui/screens/register_screen.dart';
+import 'package:travelbae_android/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
@@ -128,10 +134,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 'role_id': "3"
               }));
       if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        String apiKey = data['token'];
+        print("apiKey $apiKey");
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('apiKey', apiKey);
+
+        String? getedApiKey = await prefs.getString('apiKey');
+        print(getedApiKey);
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => CustomBottomNavbar(
                   pageindex: 0,
                   username: unameController.text,
+                  token: getedApiKey.toString(),
                 )));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

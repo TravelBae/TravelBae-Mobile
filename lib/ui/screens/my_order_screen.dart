@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:travelbae_android/ui/screens/detail_place_screen.dart';
+import 'package:travelbae_android/ui/screens/tourplaces/detail_place_screen.dart';
 import 'package:travelbae_android/ui/screens/ticket_detail_screen.dart';
 
 class MyOrderPage extends StatefulWidget {

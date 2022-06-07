@@ -1,9 +1,11 @@
-// ignore_for_file: prefer_const_constructors
+import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
 import 'package:travelbae_android/ui/screens/login_screen.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -13,6 +15,11 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  var unameController = TextEditingController();
+  var passController = TextEditingController();
+  var passconfirmController = TextEditingController();
+  var emailController = TextEditingController();
+  var nohpController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,16 +56,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(
                   children: [
                     CustomFormField(
-                        controller: TextEditingController(),
-                        label: "Name",
-                        placeholder: "Enter your name...",
+                        controller: unameController,
+                        label: "Username",
+                        placeholder: "Enter your username...",
                         isPassword: false)
                   ],
                 ),
                 Column(
                   children: [
                     CustomFormField(
-                        controller: TextEditingController(),
+                        controller: nohpController,
                         label: "Phone Number",
                         placeholder: "62+",
                         isPassword: false)
@@ -67,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(
                   children: [
                     CustomFormField(
-                        controller: TextEditingController(),
+                        controller: emailController,
                         label: "Email",
                         placeholder: "example@gmail.com",
                         isPassword: false)
@@ -76,8 +83,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Column(
                   children: [
                     CustomFormField(
-                        controller: TextEditingController(),
+                        controller: passController,
                         label: "Password",
+                        placeholder: "Enter your password...",
+                        isPassword: true)
+                  ],
+                ),
+                Column(
+                  children: [
+                    CustomFormField(
+                        controller: passconfirmController,
+                        label: "Confirm Password",
                         placeholder: "Enter your password...",
                         isPassword: true)
                   ],
@@ -90,8 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const LoginScreen()));
+                      register();
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(primary_40),
@@ -114,5 +129,68 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> register() async {
+    if (unameController.text.isNotEmpty &&
+        passController.text.isNotEmpty &&
+        passconfirmController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        nohpController.text.isNotEmpty) {
+      if (passController.text == passconfirmController.text) {
+        var response = await http.post(
+            Uri.parse(
+              "http://10.0.2.2:8000/api/register",
+            ),
+            body: ({
+              'username': unameController.text,
+              'password': passController.text,
+              'password_confirmation': passconfirmController.text,
+              'email': emailController.text,
+              'noHP': nohpController.text
+            }));
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          String apiKey = data['token'];
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text(
+              "Registration Success!",
+              style: TextStyle(color: neutral_10),
+            ),
+            backgroundColor: success_30,
+          ));
+          print(response.statusCode);
+          Timer(
+              Duration(seconds: 3),
+              () => Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => LoginScreen())));
+        } else {
+          print(response.statusCode);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text(
+              "Something unexpected happened, please try again",
+              style: TextStyle(color: neutral_10),
+            ),
+            backgroundColor: danger_30,
+          ));
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text(
+            "Your password and confirmation does not match, please try again",
+            style: TextStyle(color: neutral_10),
+          ),
+          backgroundColor: danger_30,
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const Text(
+          "Please fill in all the blank form",
+          style: TextStyle(color: neutral_10),
+        ),
+        backgroundColor: danger_30,
+      ));
+    }
   }
 }

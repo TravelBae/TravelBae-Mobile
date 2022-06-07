@@ -1,20 +1,20 @@
-import 'package:flutter/cupertino.dart';
+//Import models
+import 'package:travelbae_android/models/event_model.dart';
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/ui/widgets/custom_description.dart';
-import 'package:travelbae_android/ui/screens/checkout_screen.dart';
-import 'package:travelbae_android/models/tourplace_model.dart';
+import 'package:travelbae_android/ui/screens/events/event_checkout_screen.dart';
 
-class DetailPlacePage extends StatefulWidget {
-  Tourplace tourplace;
-  DetailPlacePage({required this.tourplace, Key? key}) : super(key: key);
+class DetailEventPage extends StatefulWidget {
+  Event event;
+  DetailEventPage({required this.event, Key? key}) : super(key: key);
 
   @override
-  State<DetailPlacePage> createState() => _DetailPlacePageState();
+  State<DetailEventPage> createState() => _DetailEventPageState();
 }
 
-class _DetailPlacePageState extends State<DetailPlacePage> {
+class _DetailEventPageState extends State<DetailEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +32,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                   children: <Widget>[
                     Stack(children: <Widget>[
                       Image.network(
-                        widget.tourplace.img_tempat,
+                        widget.event.img_tempat,
                         height: 428,
                         width: 420,
                         fit: BoxFit.cover,
@@ -76,7 +76,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                         children: [
                           Container(
                             padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(widget.tourplace.nama_tempat,
+                            child: Text(widget.event.nama_event,
                                 style: TextStyle(
                                     color: neutral_10,
                                     fontSize: 32,
@@ -89,7 +89,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15))),
                             child: Text(
-                              widget.tourplace.kategori.toString(),
+                              widget.event.kategori.toString(),
                               style: const TextStyle(
                                   fontSize: 14, color: neutral_10),
                             ),
@@ -110,13 +110,13 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                         height: 24,
                       ),
                       // ABOUT
-                      Text("About", style: text_xl_bold),
+                      Text("Regulasi", style: text_xl_bold),
                       const SizedBox(
                         height: 16,
                       ),
 
                       // DESC
-                      CustomDescription(text: widget.tourplace.deskripsi),
+                      CustomDescription(text: widget.event.regulasi),
                       const SizedBox(
                         height: 16,
                       ),
@@ -134,8 +134,8 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                               padding: const EdgeInsets.only(left: 8),
                               child: SizedBox(
                                 width: 320,
-                                child: Text(widget.tourplace.alamat,
-                                    style: text_base),
+                                child:
+                                    Text(widget.event.alamat, style: text_base),
                               )),
                         ],
                       ),
@@ -151,7 +151,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                           Container(
                               padding: const EdgeInsets.only(left: 8),
                               child: Text(
-                                  widget.tourplace.jambuka.substring(0, 5) +
+                                  widget.event.jammulai.substring(0, 5) +
                                       ' WIB',
                                   style: text_base)),
                         ],
@@ -176,7 +176,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                           ),
                         ),
                         Text(
-                          widget.tourplace.stoktiket.toString(),
+                          widget.event.stok.toString(),
                           style:
                               const TextStyle(fontSize: 24, color: neutral_60),
                         )
@@ -200,7 +200,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                           ),
                         ),
                         Text(
-                          'Rp ' + widget.tourplace.harga.toString(),
+                          'Rp ' + widget.event.harga.toString(),
                           style:
                               const TextStyle(fontSize: 23, color: neutral_60),
                         )
@@ -221,7 +221,9 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const CheckoutPage()));
+                            builder: (context) => EventCheckoutPage(
+                                  event: widget.event,
+                                )));
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(primary_40),

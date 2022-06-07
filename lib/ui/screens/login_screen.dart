@@ -1,14 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:travelbae_android/models/tourplace_model.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
 import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
 import 'package:travelbae_android/ui/screens/register_screen.dart';
-import 'package:travelbae_android/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {

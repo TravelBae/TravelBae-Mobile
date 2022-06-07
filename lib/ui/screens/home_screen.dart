@@ -1,14 +1,18 @@
-import 'package:flutter/cupertino.dart';
+//Import library
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/styleGuide.dart';
+
+//Import models
 import 'package:travelbae_android/models/tourplace_model.dart';
 import 'package:travelbae_android/models/event_model.dart';
-import 'package:flutter/foundation.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-import 'package:travelbae_android/styleGuide.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:travelbae_android/ui/screens/detail_place_screen.dart';
-import 'package:travelbae_android/ui/screens/detail_event_screen.dart';
+
+//Import Screen
+import 'package:travelbae_android/ui/screens/tourplaces/detail_place_screen.dart';
+import 'package:travelbae_android/ui/screens/events/detail_event_screen.dart';
 import 'package:travelbae_android/ui/screens/explore_dest_screen.dart';
 
 Future<List<Tourplace>> fetchTourplace(http.Client client, String token) async {

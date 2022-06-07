@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
+//Import library
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+//Import Screen
 import 'package:travelbae_android/ui/screens/explore_category_screen.dart';
 
 class ExploreDestinationPage extends StatefulWidget {

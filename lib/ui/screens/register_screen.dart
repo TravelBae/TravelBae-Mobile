@@ -1,11 +1,15 @@
+//Import library
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:travelbae_android/styleGuide.dart';
-import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
-import 'package:travelbae_android/ui/screens/login_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:travelbae_android/styleGuide.dart';
+
+//Import Screen
+import 'package:travelbae_android/ui/screens/login_screen.dart';
+
+//Import Widget
+import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);

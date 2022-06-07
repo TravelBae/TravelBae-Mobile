@@ -1,15 +1,28 @@
+//Import library
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/styleGuide.dart';
+
 //Import models
 import 'package:travelbae_android/models/tourplace_model.dart';
-import 'package:travelbae_android/models/event_model.dart';
-import 'package:flutter/material.dart';
-import 'package:travelbae_android/styleGuide.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:travelbae_android/ui/widgets/custom_dropdown.dart';
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
 import 'package:travelbae_android/ui/screens/success_screen.dart';
 
+//Import Widget
+import 'package:travelbae_android/ui/widgets/custom_dropdown.dart';
+
 class TourplaceCheckoutPage extends StatefulWidget {
+  User user;
+  String token;
   Tourplace tourplace;
-  TourplaceCheckoutPage({required this.tourplace, Key? key}) : super(key: key);
+  TourplaceCheckoutPage(
+      {required this.user,
+      required this.token,
+      required this.tourplace,
+      Key? key})
+      : super(key: key);
 
   @override
   State<TourplaceCheckoutPage> createState() => _TourplaceCheckoutPageState();
@@ -214,8 +227,10 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SuccessScreen()));
+                                    builder: (context) => SuccessScreen(
+                                          user: widget.user,
+                                          token: widget.token,
+                                        )));
                               },
                               style: ButtonStyle(
                                 backgroundColor:

@@ -9,6 +9,7 @@ import 'package:travelbae_android/styleGuide.dart';
 //Import models
 import 'package:travelbae_android/models/tourplace_model.dart';
 import 'package:travelbae_android/models/event_model.dart';
+import 'package:travelbae_android/models/user_model.dart';
 
 //Import Screen
 import 'package:travelbae_android/ui/screens/tourplaces/detail_place_screen.dart';
@@ -46,9 +47,9 @@ List<Event> parseEvent(String responseBody) {
 }
 
 class HomeScreen extends StatefulWidget {
-  String username;
+  User user;
   String token;
-  HomeScreen({required this.username, required this.token, Key? key})
+  HomeScreen({required this.user, required this.token, Key? key})
       : super(key: key);
 
   @override
@@ -76,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // HEADER
                 Text("Welcome!", style: text_base_bold),
-                Text(widget.username, style: text_2xl_bold),
+                Text(widget.user.username, style: text_2xl_bold),
                 const SizedBox(
                   height: 32,
                 ),
@@ -203,7 +204,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text('An error has occurred!'),
                       );
                     } else if (snapshot.hasData) {
-                      return TourplaceCard(tourplaces: snapshot.data!);
+                      return TourplaceCard(
+                        tourplaces: snapshot.data!,
+                        user: widget.user,
+                        token: widget.token,
+                      );
                     } else {
                       return const Center(
                         child: CircularProgressIndicator(),
@@ -237,7 +242,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text('An error has occurred!'),
                       );
                     } else if (snapshot.hasData) {
-                      return EventList(events: snapshot.data!);
+                      return EventList(
+                        events: snapshot.data!,
+                        user: widget.user,
+                        token: widget.token,
+                      );
                     } else {
                       return const Center(
                         child: CircularProgressIndicator(),
@@ -255,7 +264,14 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class EventList extends StatelessWidget {
-  const EventList({key, required this.events});
+  User user;
+  String token;
+  EventList({
+    key,
+    required this.events,
+    required this.user,
+    required this.token,
+  });
 
   final List<Event> events;
   @override
@@ -271,6 +287,8 @@ class EventList extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => DetailEventPage(
                             event: events[index],
+                            user: user,
+                            token: token,
                           )));
                 },
                 child: Column(
@@ -347,12 +365,21 @@ class EventList extends StatelessWidget {
 }
 
 class TourplaceCard extends StatelessWidget {
-  const TourplaceCard({key, required this.tourplaces});
+  User user;
+  String token;
+  TourplaceCard({
+    key,
+    required this.tourplaces,
+    required this.user,
+    required this.token,
+  });
 
   final List<Tourplace> tourplaces;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -371,8 +398,9 @@ class TourplaceCard extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => DetailPlacePage(
-                                tourplace: tourplaces[index],
-                              )));
+                              tourplace: tourplaces[index],
+                              user: user,
+                              token: token)));
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

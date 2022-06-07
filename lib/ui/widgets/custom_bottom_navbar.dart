@@ -1,17 +1,22 @@
+//Import library
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
+
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
 import 'package:travelbae_android/ui/screens/home_screen.dart';
 import 'package:travelbae_android/ui/screens/profile_screen.dart';
 import 'package:travelbae_android/ui/screens/my_order_screen.dart';
-import 'package:travelbae_android/ui/screens/login_screen.dart';
 
 class CustomBottomNavbar extends StatefulWidget {
-  String username;
+  User user;
   int pageindex;
   String token;
   CustomBottomNavbar(
       {required this.pageindex,
-      required this.username,
+      required this.user,
       required this.token,
       Key? key})
       : super(key: key);
@@ -28,9 +33,9 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   void initState() {
     super.initState();
     _widgetOptions = [
-      HomeScreen(username: widget.username, token: widget.token),
-      MyOrderPage(),
-      ProfileScreen(),
+      HomeScreen(user: widget.user, token: widget.token),
+      MyOrderPage(user: widget.user, token: widget.token),
+      ProfileScreen(user: widget.user, token: widget.token),
     ];
   }
 

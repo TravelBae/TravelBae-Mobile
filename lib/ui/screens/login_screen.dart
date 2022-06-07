@@ -1,12 +1,35 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//Import library
 import 'dart:convert';
-import 'dart:async';
-import 'package:travelbae_android/styleGuide.dart';
-import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
-import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
-import 'package:travelbae_android/ui/screens/register_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
+import 'package:travelbae_android/styleGuide.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
+import 'package:travelbae_android/ui/screens/register_screen.dart';
+
+//Import Widget
+import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
+import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
+
+Future<List<User>> fetchUser(http.Client client, String token) async {
+  final response = await client
+      .get(Uri.parse('http://10.0.2.2:8000/api/customer'), headers: {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer ' + token
+  });
+  return compute(parseUser, response.body);
+}
+
+List<User> parseUser(String responseBody) {
+  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+
+  return parsed.map<User>((json) => User.fromJson(json)).toList();
+}
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -48,8 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.only(bottom: 24),
                   child: Text(
                     "please sign in to continue",
-                    style:
-                        TextStyle(color: neutral_40), // textstyle gabisa ya???
+                    style: TextStyle(color: neutral_40),
                   ),
                 ),
                 Column(
@@ -109,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 builder: (context) => const RegisterScreen()));
                           },
                           child: const Text("Register",
-                              style: const TextStyle(color: primary_40))),
+                              style: TextStyle(color: primary_40))),
                     ],
                   ),
                 ),
@@ -122,6 +144,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> login() async {
+    List<User> users;
+    User user;
+    int i;
     if (passController.text.isNotEmpty && unameController.text.isNotEmpty) {
       var response =
           await http.post(Uri.parse("http://10.0.2.2:8000/api/login"),
@@ -138,13 +163,23 @@ class _LoginScreenState extends State<LoginScreen> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('apiKey', apiKey);
 
+        users = await fetchUser(http.Client(), apiKey);
+        int key = users.length - 1;
+        for (i = 0; i < users.length - 1; i++) {
+          if (users[i].username == unameController.text) {
+            key = i;
+          }
+        }
+        user = users[key];
+        print(user.username);
+
         String? getedApiKey = await prefs.getString('apiKey');
         print(getedApiKey);
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => CustomBottomNavbar(
                   pageindex: 0,
-                  username: unameController.text,
                   token: getedApiKey.toString(),
+                  user: user,
                 )));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

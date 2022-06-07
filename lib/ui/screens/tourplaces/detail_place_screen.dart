@@ -1,14 +1,28 @@
+//Import library
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/styleGuide.dart';
+
 //Import models
 import 'package:travelbae_android/models/tourplace_model.dart';
-import 'package:flutter/material.dart';
-import 'package:travelbae_android/styleGuide.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:travelbae_android/ui/widgets/custom_description.dart';
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
 import 'package:travelbae_android/ui/screens/tourplaces/tourplace_checkout_screen.dart';
 
+//Import Widget
+import 'package:travelbae_android/ui/widgets/custom_description.dart';
+
 class DetailPlacePage extends StatefulWidget {
+  User user;
+  String token;
   Tourplace tourplace;
-  DetailPlacePage({required this.tourplace, Key? key}) : super(key: key);
+  DetailPlacePage(
+      {required this.user,
+      required this.token,
+      required this.tourplace,
+      Key? key})
+      : super(key: key);
 
   @override
   State<DetailPlacePage> createState() => _DetailPlacePageState();
@@ -222,7 +236,10 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => TourplaceCheckoutPage(
-                                tourplace: widget.tourplace)));
+                                  tourplace: widget.tourplace,
+                                  user: widget.user,
+                                  token: widget.token,
+                                )));
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(primary_40),

@@ -1,12 +1,19 @@
-import 'package:flutter/cupertino.dart';
+//Import library
 import 'package:flutter/material.dart';
-import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:travelbae_android/ui/screens/tourplaces/detail_place_screen.dart';
+import 'package:travelbae_android/styleGuide.dart';
+
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
 import 'package:travelbae_android/ui/screens/ticket_detail_screen.dart';
 
 class MyOrderPage extends StatefulWidget {
-  const MyOrderPage({Key? key}) : super(key: key);
+  User user;
+  String token;
+  MyOrderPage({required this.user, required this.token, Key? key})
+      : super(key: key);
 
   @override
   State<MyOrderPage> createState() => _MyOrderPageState();
@@ -41,12 +48,12 @@ class _MyOrderPageState extends State<MyOrderPage> {
                 SingleChildScrollView(
                   child: Column(
                     children: [
-                      CardTourPlace(context),
-                      CardTourPlace(context),
-                      CardTourPlace(context),
-                      CardTourPlace(context),
-                      CardTourPlace(context),
-                      CardTourPlace(context),
+                      CardTourPlace(context, widget.user, widget.token),
+                      CardTourPlace(context, widget.user, widget.token),
+                      CardTourPlace(context, widget.user, widget.token),
+                      CardTourPlace(context, widget.user, widget.token),
+                      CardTourPlace(context, widget.user, widget.token),
+                      CardTourPlace(context, widget.user, widget.token),
                     ],
                   ),
                 )
@@ -59,7 +66,7 @@ class _MyOrderPageState extends State<MyOrderPage> {
   }
 }
 
-Widget CardTourPlace(BuildContext context) {
+Widget CardTourPlace(BuildContext context, User user, String token) {
   return Container(
     decoration: BoxDecoration(
       color: neutral_20,
@@ -69,8 +76,11 @@ Widget CardTourPlace(BuildContext context) {
     margin: EdgeInsets.only(bottom: 24),
     child: GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const TicketDetailPage()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => TicketDetailPage(
+                  user: user,
+                  token: token,
+                )));
       },
       child: Column(
         children: [

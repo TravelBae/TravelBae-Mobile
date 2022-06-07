@@ -1,11 +1,18 @@
-import 'package:flutter/cupertino.dart';
+//Import library
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Widget
 import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
 
 class SuccessScreen extends StatefulWidget {
-  const SuccessScreen({Key? key}) : super(key: key);
+  User user;
+  String token;
+  SuccessScreen({required this.user, required this.token, Key? key})
+      : super(key: key);
 
   @override
   State<SuccessScreen> createState() => _SuccessScreenState();
@@ -47,8 +54,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => CustomBottomNavbar(
                               pageindex: 0,
-                              username: '',
-                              token: '',
+                              user: widget.user,
+                              token: widget.token,
                             )));
                   },
                   style: ButtonStyle(

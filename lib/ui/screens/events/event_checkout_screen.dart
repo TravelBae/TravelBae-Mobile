@@ -1,14 +1,26 @@
+//Import library
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/styleGuide.dart';
+
 //Import models
 import 'package:travelbae_android/models/event_model.dart';
-import 'package:flutter/material.dart';
-import 'package:travelbae_android/styleGuide.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:travelbae_android/ui/widgets/custom_dropdown.dart';
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
 import 'package:travelbae_android/ui/screens/success_screen.dart';
 
+//Import Widget
+import 'package:travelbae_android/ui/widgets/custom_dropdown.dart';
+
 class EventCheckoutPage extends StatefulWidget {
+  User user;
+  String token;
   Event event;
-  EventCheckoutPage({required this.event, Key? key}) : super(key: key);
+  EventCheckoutPage(
+      {required this.user, required this.token, required this.event, Key? key})
+      : super(key: key);
 
   @override
   State<EventCheckoutPage> createState() => _EventCheckoutPageState();
@@ -210,8 +222,10 @@ class _EventCheckoutPageState extends State<EventCheckoutPage> {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SuccessScreen()));
+                                    builder: (context) => SuccessScreen(
+                                          user: widget.user,
+                                          token: widget.token,
+                                        )));
                               },
                               style: ButtonStyle(
                                 backgroundColor:

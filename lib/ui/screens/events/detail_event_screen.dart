@@ -1,14 +1,25 @@
+//Import library
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/styleGuide.dart';
+
 //Import models
 import 'package:travelbae_android/models/event_model.dart';
-import 'package:flutter/material.dart';
-import 'package:travelbae_android/styleGuide.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:travelbae_android/ui/widgets/custom_description.dart';
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
 import 'package:travelbae_android/ui/screens/events/event_checkout_screen.dart';
 
+//Import Widget
+import 'package:travelbae_android/ui/widgets/custom_description.dart';
+
 class DetailEventPage extends StatefulWidget {
+  User user;
+  String token;
   Event event;
-  DetailEventPage({required this.event, Key? key}) : super(key: key);
+  DetailEventPage(
+      {required this.user, required this.token, required this.event, Key? key})
+      : super(key: key);
 
   @override
   State<DetailEventPage> createState() => _DetailEventPageState();
@@ -223,6 +234,8 @@ class _DetailEventPageState extends State<DetailEventPage> {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => EventCheckoutPage(
                                   event: widget.event,
+                                  user: widget.user,
+                                  token: widget.token,
                                 )));
                       },
                       style: ButtonStyle(

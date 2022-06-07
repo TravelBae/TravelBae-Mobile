@@ -1,15 +1,22 @@
-// ignore_for_file: prefer_const_constructors
-
+//Import library
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
+
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
+
+//Import Widget
 import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
 import 'package:travelbae_android/ui/widgets/custom_form_field.dart';
-import 'package:travelbae_android/ui/screens/login_screen.dart';
-import 'package:travelbae_android/ui/screens/profile_screen.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
-  const ChangePasswordScreen({Key? key}) : super(key: key);
+  User user;
+  String token;
+  ChangePasswordScreen({required this.user, required this.token, Key? key})
+      : super(key: key);
 
   @override
   State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
@@ -88,8 +95,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => CustomBottomNavbar(
                                   pageindex: 2,
-                                  username: '',
-                                  token: '',
+                                  user: widget.user,
+                                  token: widget.token,
                                 )));
                       },
                       style: ButtonStyle(

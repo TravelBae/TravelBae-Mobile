@@ -1,13 +1,20 @@
-import 'package:flutter/cupertino.dart';
+//Import library
 import 'package:flutter/material.dart';
-import 'package:travelbae_android/styleGuide.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travelbae_android/styleGuide.dart';
+
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Widget
 import 'package:travelbae_android/ui/widgets/custom_bottom_navbar.dart';
 import 'package:travelbae_android/ui/widgets/custom_dropdown.dart';
-import 'package:travelbae_android/ui/screens/my_order_screen.dart';
 
 class TicketDetailPage extends StatefulWidget {
-  const TicketDetailPage({Key? key}) : super(key: key);
+  User user;
+  String token;
+  TicketDetailPage({required this.user, required this.token, Key? key})
+      : super(key: key);
 
   @override
   State<TicketDetailPage> createState() => _TicketDetailPageState();
@@ -37,8 +44,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => CustomBottomNavbar(
                               pageindex: 1,
-                              username: '',
-                              token: '',
+                              user: widget.user,
+                              token: widget.token,
                             )));
                   },
                   child: SvgPicture.asset(

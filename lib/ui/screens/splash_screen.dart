@@ -1,7 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+//Import library
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
+
+//Import Screen
 import 'package:travelbae_android/ui/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {

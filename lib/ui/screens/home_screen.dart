@@ -405,13 +405,11 @@ class TourplaceCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          child: Image.network(
-                            tourplaces[index].img_tempat,
-                            height: 200,
-                            width: 220,
-                            fit: BoxFit.cover,
-                          ),
+                        Image.network(
+                          tourplaces[index].img_tempat,
+                          height: 200,
+                          width: 220,
+                          fit: BoxFit.cover,
                         ),
                         Padding(
                           padding: const EdgeInsets.all(12),

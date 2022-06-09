@@ -147,7 +147,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                           Container(
                               padding: const EdgeInsets.only(left: 8),
                               child: SizedBox(
-                                width: 320,
+                                width: 300,
                                 child: Text(widget.tourplace.alamat,
                                     style: text_base),
                               )),

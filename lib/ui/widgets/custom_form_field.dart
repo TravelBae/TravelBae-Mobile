@@ -42,8 +42,8 @@ class _CustomFormFieldState extends State<CustomFormField> {
               suffixIcon: widget.isPassword
                   ? IconButton(
                       icon: !isHidden
-                          ? Icon(Icons.visibility_off)
-                          : Icon(Icons.visibility),
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
                       onPressed: togglePasswordVisibility,
                     )
                   : null,

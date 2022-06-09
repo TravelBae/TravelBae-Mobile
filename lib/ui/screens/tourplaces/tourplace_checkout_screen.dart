@@ -102,7 +102,7 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          width: 250,
+                                          width: 235,
                                           child: Text(
                                             widget.tourplace.nama_tempat,
                                             style: text_base_bold,
@@ -172,7 +172,7 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       SizedBox(
-                                        width: 250,
+                                        width: 235,
                                         child: Text(
                                             widget.tourplace.nama_tempat,
                                             style: text_base),

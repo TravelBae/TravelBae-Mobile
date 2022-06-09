@@ -57,6 +57,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool activecategory = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,59 +143,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 24,
                 ),
-
-                // SEARCH FIELD
-                SizedBox(
-                  height: 56,
-                  child: TextField(
-                    style: text_base,
-                    decoration: InputDecoration(
-                      hintText: "Search...",
-                      hintStyle: const TextStyle(color: neutral_40),
-                      filled: true,
-                      fillColor: neutral_20,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: neutral_10),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                // Event
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Tourplaces",
+                      style: text_xl_bold,
                     ),
-                  ),
+                  ],
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-
-                // CATEGORY
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        "category1",
-                        style: text_base,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "category1",
-                        style: text_base,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "category1",
-                        style: text_base,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        "category1",
-                        style: text_base,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-
                 // CARD RECOMENDATION
                 FutureBuilder<List<Tourplace>>(
                   future: fetchTourplace(http.Client(), widget.token),
@@ -221,12 +182,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 24,
                 ),
 
-                // EXPLORE MORE
+                // Event
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Newest Event",
+                      "Events",
                       style: text_xl_bold,
                     ),
                   ],
@@ -263,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class EventList extends StatelessWidget {
+class EventList extends StatefulWidget {
   User user;
   String token;
   EventList({
@@ -274,24 +235,155 @@ class EventList extends StatelessWidget {
   });
 
   final List<Event> events;
+  late List<Event> foundevents = [];
+
+  @override
+  State<EventList> createState() => _EventListState();
+}
+
+class _EventListState extends State<EventList> {
+  @override
+  initState() {
+    widget.foundevents = widget.events;
+    super.initState();
+  }
+
+  void _runFilter(String enteredKeyword) {
+    List<Event> results = [];
+    if (enteredKeyword.isEmpty) {
+      results = widget.foundevents;
+    } else {
+      results = widget.foundevents
+          .where((user) => user.nama_event
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      widget.foundevents = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      // SEARCH FIELD
+      SizedBox(
+        height: 56,
+        child: TextField(
+          onChanged: (value) => _runFilter(value),
+          style: text_base,
+          decoration: InputDecoration(
+            hintText: "Search Events...",
+            hintStyle: const TextStyle(color: neutral_40),
+            filled: true,
+            fillColor: neutral_20,
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: neutral_10),
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(
+        height: 24,
+      ),
       SizedBox(
         height: 250,
-        child: ListView.builder(
-            itemCount: events.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DetailEventPage(
-                            event: events[index],
-                            user: user,
-                            token: token,
-                          )));
-                },
-                child: Column(
+        child: widget.foundevents.isNotEmpty
+            ? ListView.builder(
+                itemCount: widget.foundevents.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DetailEventPage(
+                                event: widget.foundevents[index],
+                                user: widget.user,
+                                token: widget.token,
+                              )));
+                    },
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                  height: 72,
+                                  width: 72,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: primary_30,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.network(
+                                      widget.foundevents[index].img_tempat,
+                                      height: 200,
+                                      width: 220,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    child: widget.foundevents[index].nama_event
+                                                .length <
+                                            28
+                                        ? Text(
+                                            widget
+                                                .foundevents[index].nama_event,
+                                            style: text_base_bold,
+                                          )
+                                        : Text(
+                                            widget.foundevents[index].nama_event
+                                                    .substring(0, 23) +
+                                                '...',
+                                            style: text_base_bold,
+                                          )),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                  child:
+                                      widget.foundevents[index].alamat.length <
+                                              38
+                                          ? Text(
+                                              widget.foundevents[index].alamat,
+                                              style: const TextStyle(
+                                                color: neutral_40,
+                                              ),
+                                            )
+                                          : Text(
+                                              widget.foundevents[index].alamat
+                                                      .substring(0, 34) +
+                                                  '...',
+                                              style: const TextStyle(
+                                                color: neutral_40,
+                                              ),
+                                            ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                      ],
+                    ),
+                  );
+                })
+            : ListView(scrollDirection: Axis.vertical, children: <Widget>[
+                Column(
                   children: [
                     Row(
                       children: [
@@ -302,13 +394,14 @@ class EventList extends StatelessWidget {
                               width: 72,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: primary_30,
                               ),
-                              child: Image.network(
-                                events[index].img_tempat,
-                                height: 200,
-                                width: 220,
-                                fit: BoxFit.cover,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.asset(
+                                  'asets/Logo.png',
+                                  height: 10,
+                                  width: 10,
+                                ),
                               ),
                             ),
                           ],
@@ -319,35 +412,13 @@ class EventList extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                                child: events[index].nama_event.length < 28
-                                    ? Text(
-                                        events[index].nama_event,
-                                        style: text_base_bold,
-                                      )
-                                    : Text(
-                                        events[index]
-                                                .nama_event
-                                                .substring(0, 23) +
-                                            '...',
-                                        style: text_base_bold,
-                                      )),
-                            Container(
-                              child: events[index].alamat.length < 41
-                                  ? Text(
-                                      events[index].alamat,
-                                      style: const TextStyle(
-                                        color: neutral_40,
-                                      ),
-                                    )
-                                  : Text(
-                                      events[index].alamat.substring(0, 36) +
-                                          '...',
-                                      style: const TextStyle(
-                                        color: neutral_40,
-                                      ),
-                                    ),
-                            )
+                            Text(
+                              'No events found!',
+                              style: text_base_bold,
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
                           ],
                         ),
                       ],
@@ -357,14 +428,13 @@ class EventList extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
-            }),
+              ]),
       ),
     ]);
   }
 }
 
-class TourplaceCard extends StatelessWidget {
+class TourplaceCard extends StatefulWidget {
   User user;
   String token;
   TourplaceCard({
@@ -375,6 +445,34 @@ class TourplaceCard extends StatelessWidget {
   });
 
   final List<Tourplace> tourplaces;
+  late List<Tourplace> foundtourplaces = [];
+
+  @override
+  State<TourplaceCard> createState() => _TourplaceCardState();
+}
+
+class _TourplaceCardState extends State<TourplaceCard> {
+  @override
+  initState() {
+    widget.foundtourplaces = widget.tourplaces;
+    super.initState();
+  }
+
+  void _runFilter(String enteredKeyword) {
+    List<Tourplace> results = [];
+    if (enteredKeyword.isEmpty) {
+      results = widget.tourplaces;
+    } else {
+      results = widget.tourplaces
+          .where((user) => user.nama_tempat
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      widget.foundtourplaces = results;
+    });
+  }
 
   @override
   Widget build(
@@ -383,34 +481,130 @@ class TourplaceCard extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        // SEARCH FIELD
+        SizedBox(
+          height: 56,
+          child: TextField(
+            onChanged: (value) => _runFilter(value),
+            style: text_base,
+            decoration: InputDecoration(
+              hintText: "Search Tourplace...",
+              hintStyle: const TextStyle(color: neutral_40),
+              filled: true,
+              fillColor: neutral_20,
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: neutral_10),
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 24,
+        ),
         SizedBox(
           height: 290,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: tourplaces.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: neutral_30, width: 1),
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => DetailPlacePage(
-                              tourplace: tourplaces[index],
-                              user: user,
-                              token: token)));
-                    },
+          child: widget.foundtourplaces.isNotEmpty
+              ? ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: widget.foundtourplaces.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(color: neutral_30, width: 1),
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DetailPlacePage(
+                                  tourplace: widget.foundtourplaces[index],
+                                  user: widget.user,
+                                  token: widget.token)));
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(16),
+                                  topRight: Radius.circular(16)),
+                              child: Image.network(
+                                widget.foundtourplaces[index].img_tempat,
+                                height: 200,
+                                width: 220,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      child: widget.foundtourplaces[index]
+                                                  .nama_tempat.length <
+                                              28
+                                          ? Text(
+                                              widget.foundtourplaces[index]
+                                                  .nama_tempat,
+                                              style: text_base_bold,
+                                            )
+                                          : Text(
+                                              widget.foundtourplaces[index]
+                                                      .nama_tempat
+                                                      .substring(0, 23) +
+                                                  '...',
+                                              style: text_base_bold,
+                                            )),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Container(
+                                    child: widget.foundtourplaces[index].alamat
+                                                .length <
+                                            28
+                                        ? Text(
+                                            widget
+                                                .foundtourplaces[index].alamat,
+                                            style: const TextStyle(
+                                              color: neutral_40,
+                                            ),
+                                          )
+                                        : Text(
+                                            widget.foundtourplaces[index].alamat
+                                                    .substring(0, 28) +
+                                                '...',
+                                            style: const TextStyle(
+                                              color: neutral_40,
+                                            ),
+                                          ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  })
+              : ListView(scrollDirection: Axis.horizontal, children: <Widget>[
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(color: neutral_30, width: 1),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          child: Image.network(
-                            tourplaces[index].img_tempat,
+                        ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(16)),
+                          child: Image.asset(
+                            'asets/Logo.png',
                             height: 200,
                             width: 220,
-                            fit: BoxFit.cover,
                           ),
                         ),
                         Padding(
@@ -419,45 +613,20 @@ class TourplaceCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                  child:
-                                      tourplaces[index].nama_tempat.length < 28
-                                          ? Text(
-                                              tourplaces[index].nama_tempat,
-                                              style: text_base_bold,
-                                            )
-                                          : Text(
-                                              tourplaces[index]
-                                                      .nama_tempat
-                                                      .substring(0, 23) +
-                                                  '...',
-                                              style: text_base_bold,
-                                            )),
-                              Container(
-                                child: tourplaces[index].alamat.length < 28
-                                    ? Text(
-                                        tourplaces[index].alamat,
-                                        style: const TextStyle(
-                                          color: neutral_40,
-                                        ),
-                                      )
-                                    : Text(
-                                        tourplaces[index]
-                                                .alamat
-                                                .substring(0, 28) +
-                                            '...',
-                                        style: const TextStyle(
-                                          color: neutral_40,
-                                        ),
-                                      ),
-                              )
+                                  child: Text(
+                                "No tourplaces found!",
+                                style: text_base_bold,
+                              )),
+                              const SizedBox(
+                                height: 4,
+                              ),
                             ],
                           ),
                         )
                       ],
                     ),
                   ),
-                );
-              }),
+                ]),
         ),
       ],
     );

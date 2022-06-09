@@ -151,7 +151,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: SizedBox(
-                        width: 218,
+                        width: 195,
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {

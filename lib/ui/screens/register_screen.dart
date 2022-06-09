@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
 
 //Import Screen
@@ -37,24 +38,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
               //---TINGGAL EDIT DIBAWAH SINI---
               mainAxisSize:
                   MainAxisSize.max, // max: fill container, min: hug content
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 24,
                 ),
-                Image.asset(
-                  'asets/illus/illus-1.png',
-                  height: 172,
+                SizedBox(
+                  height: 32,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 4),
-                  child: Text("Create Account", style: text_lg_bold),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: SvgPicture.asset(
+                    iconBack,
+                    height: 32,
+                    width: 32,
+                    fit: BoxFit.scaleDown,
+                  ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 24),
-                  child: Text(
-                    "please register to get started",
-                    style:
-                        TextStyle(color: neutral_40), // textstyle gabisa ya???
+                Center(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'asets/illus/illus-1.png',
+                        height: 172,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 4),
+                        child: Text("Create Account", style: text_lg_bold),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 24),
+                        child: Text(
+                          "please register to get started",
+                          style: TextStyle(color: neutral_40),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Column(
@@ -102,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         isPassword: true)
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 32,
                 ),
                 SizedBox(

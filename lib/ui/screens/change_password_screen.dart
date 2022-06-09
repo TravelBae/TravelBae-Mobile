@@ -104,8 +104,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         isPassword: true)
                   ],
                 ),
-                SizedBox(
-                  height: 250,
+                const SizedBox(
+                  height: 300,
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -134,9 +134,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 32,
-                ),
               ],
             ),
           ),
@@ -157,49 +154,53 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     }
     if (passController.text.isNotEmpty &&
         passconfirmationController.text.isNotEmpty) {
-      var response = await http.put(
-          Uri.parse(
-              "http://10.0.2.2:8000/api/customer/" + users[key].id.toString()),
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + widget.token
-          },
-          body: ({
-            'password': passController.text,
-            'password_confirmation': passconfirmationController.text,
-          }));
-      if (response.statusCode == 200) {
-        print(response.statusCode);
-        final data = jsonDecode(response.body);
-        users = await fetchUser(http.Client(), widget.token);
-        int key = users.length - 1;
-        for (i = 0; i < users.length - 1; i++) {
-          if (users[i].username == widget.user.username) {
-            key = i;
-          }
+      if (passController.text == passconfirmationController.text) {
+        var response = await http.put(
+            Uri.parse("http://10.0.2.2:8000/api/change-password/" +
+                users[key].id.toString()),
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + widget.token
+            },
+            body: ({
+              'password': passController.text,
+              'password_confirmation': passconfirmationController.text,
+            }));
+        if (response.statusCode == 200) {
+          print(response.statusCode);
+          final data = jsonDecode(response.body);
+
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => CustomBottomNavbar(
+                    pageindex: 2,
+                    token: widget.token,
+                    user: widget.user,
+                  )));
+        } else {
+          print(response.statusCode);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text(
+              "Change Password Success!",
+              style: TextStyle(color: neutral_10),
+            ),
+            backgroundColor: success_30,
+          ));
+
+          print(
+              "http://10.0.2.2:8000/api/customer/" + users[key].id.toString());
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text(
+              "Something unexpected happened, please try again",
+              style: TextStyle(color: neutral_10),
+            ),
+            backgroundColor: danger_30,
+          ));
         }
-        widget.user = users[key];
-
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => CustomBottomNavbar(
-                  pageindex: 2,
-                  token: widget.token,
-                  user: widget.user,
-                )));
       } else {
-        print(response.statusCode);
+        print("halo");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text(
-            "Change Password Success!",
-            style: TextStyle(color: neutral_10),
-          ),
-          backgroundColor: success_30,
-        ));
-
-        print("http://10.0.2.2:8000/api/customer/" + users[key].id.toString());
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text(
-            "Something unexpected happened, please try again",
+            "Your password and confirmation does not match, please try again",
             style: TextStyle(color: neutral_10),
           ),
           backgroundColor: danger_30,

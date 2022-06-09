@@ -211,6 +211,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           }));
       if (response.statusCode == 200) {
         print(response.statusCode);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text(
+            "Edit Profile Success!",
+            style: TextStyle(color: neutral_10),
+          ),
+          backgroundColor: success_30,
+        ));
         final data = jsonDecode(response.body);
         users = await fetchUser(http.Client(), widget.token);
         int key = users.length - 1;
@@ -229,13 +236,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 )));
       } else {
         print(response.statusCode);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text(
-            "Edit Profile Success!",
-            style: TextStyle(color: neutral_10),
-          ),
-          backgroundColor: success_30,
-        ));
 
         print("http://10.0.2.2:8000/api/customer/" + users[key].id.toString());
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

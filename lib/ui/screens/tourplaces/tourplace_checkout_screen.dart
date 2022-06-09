@@ -206,7 +206,7 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                       Column(
                         children: [
                           const SizedBox(
-                            height: 130,
+                            height: 180,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,13 +227,26 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                             width: double.infinity,
                             height: 48,
                             child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => SuccessScreen(
-                                          user: widget.user,
-                                          token: widget.token,
-                                        )));
-                              },
+                              onPressed: _itemCount != 0
+                                  ? () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SuccessScreen(
+                                                    user: widget.user,
+                                                    token: widget.token,
+                                                  )));
+                                    }
+                                  : () {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: const Text(
+                                          "Minimum order is one (1) ticket",
+                                          style: TextStyle(color: neutral_10),
+                                        ),
+                                        backgroundColor: danger_30,
+                                      ));
+                                    },
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all(primary_40),
@@ -261,5 +274,15 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
         ),
       ),
     );
+  }
+
+  Future<void> tiketzero() async {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text(
+        "Your password and confirmation does not match, please try again",
+        style: TextStyle(color: neutral_10),
+      ),
+      backgroundColor: danger_30,
+    ));
   }
 }

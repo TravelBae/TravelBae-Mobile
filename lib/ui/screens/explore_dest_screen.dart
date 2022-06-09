@@ -6,8 +6,14 @@ import 'package:travelbae_android/styleGuide.dart';
 //Import Screen
 import 'package:travelbae_android/ui/screens/explore_category_screen.dart';
 
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
 class ExploreDestinationPage extends StatefulWidget {
-  const ExploreDestinationPage({Key? key}) : super(key: key);
+  String token;
+  User user;
+  ExploreDestinationPage({required this.user, required this.token, Key? key})
+      : super(key: key);
 
   @override
   State<ExploreDestinationPage> createState() => _ExploreDestinationPageState();
@@ -47,42 +53,63 @@ class _ExploreDestinationPageState extends State<ExploreDestinationPage> {
               const SizedBox(
                 height: 92,
               ),
-              Text("where is your travel destination?", style: text_2xl_bold),
+              Text("What is your destination type?", style: text_2xl_bold),
               const SizedBox(
                 height: 86,
               ),
               Column(
                 children: [
-                  destinationOption(),
-                  destinationOption(),
-                  destinationOption(),
+                  Container(
+                    width: double.infinity,
+                    height: 52,
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ExploreCategoryPage(
+                                user: widget.user,
+                                token: widget.token,
+                                type: "Tourplace")));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(primary_40),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          "Tourplace",
+                          style: text_base_bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 52,
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ExploreCategoryPage(
+                                user: widget.user,
+                                token: widget.token,
+                                type: "Event")));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(primary_40),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          "Event",
+                          style: text_base_bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               )
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget destinationOption() {
-    return Container(
-      width: double.infinity,
-      height: 52,
-      margin: const EdgeInsets.only(bottom: 24),
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const ExploreCategoryPage()));
-        },
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(primary_40),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            "Destination",
-            style: text_base_bold,
           ),
         ),
       ),

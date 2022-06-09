@@ -44,6 +44,7 @@ class ChangePasswordScreen extends StatefulWidget {
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   var passController = TextEditingController();
   var passconfirmationController = TextEditingController();
+  bool isHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       body: SafeArea(
         child: Container(
           width: double.infinity, // container full
-          margin: EdgeInsets.symmetric(horizontal: 24), // margin kanan kiri
+          margin:
+              const EdgeInsets.symmetric(horizontal: 24), // margin kanan kiri
           color: neutral_10,
           child: SingleChildScrollView(
             child: Column(
@@ -61,7 +63,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 32,
                 ),
 
@@ -77,31 +79,83 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ),
                 ),
 
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
 
                 // HEADER
                 Text("Change Password", style: text_lg_bold),
-                SizedBox(
+                const SizedBox(
                   height: 32,
                 ),
                 Column(
                   children: [
-                    CustomFormField(
-                        controller: passController,
-                        label: "Password",
-                        placeholder: "Enter your password ...",
-                        isPassword: true)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 12, bottom: 4),
+                          child: Text("Password", style: text_xs_bold),
+                        ),
+                        TextFormField(
+                          style: text_xs,
+                          controller: passController,
+                          obscureText: isHidden,
+                          decoration: InputDecoration(
+                              hintText: "Enter your new password...",
+                              hintStyle: TextStyle(color: neutral_30),
+                              filled: true,
+                              fillColor: neutral_20,
+                              suffixIcon: IconButton(
+                                icon: isHidden
+                                    ? Icon(Icons.visibility_off)
+                                    : Icon(Icons.visibility),
+                                onPressed: togglePasswordVisibility,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: neutral_20),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: primary_20),
+                                borderRadius: BorderRadius.circular(8),
+                              )),
+                        ),
+                      ],
+                    )
                   ],
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomFormField(
-                        controller: passconfirmationController,
-                        label: "Confirm Password",
-                        placeholder: "Enter your password ...",
-                        isPassword: true)
+                    Padding(
+                      padding: EdgeInsets.only(top: 12, bottom: 4),
+                      child: Text("Confirm Password", style: text_xs_bold),
+                    ),
+                    TextFormField(
+                      style: text_xs,
+                      controller: passconfirmationController,
+                      obscureText: isHidden,
+                      decoration: InputDecoration(
+                          hintText: "Confirm your new password...",
+                          hintStyle: TextStyle(color: neutral_30),
+                          filled: true,
+                          fillColor: neutral_20,
+                          suffixIcon: IconButton(
+                            icon: isHidden
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility),
+                            onPressed: togglePasswordVisibility,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: neutral_20),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: primary_20),
+                            borderRadius: BorderRadius.circular(8),
+                          )),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -120,7 +174,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         backgroundColor: MaterialStateProperty.all(primary_40),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Text(
                           "Submit",
                           style: text_base_bold,
@@ -136,6 +190,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       ),
     );
   }
+
+  void togglePasswordVisibility() => setState(() => isHidden = !isHidden);
 
   Future<void> changepassword() async {
     List<User> users;
@@ -164,7 +220,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         if (response.statusCode == 200) {
           print(response.statusCode);
           final data = jsonDecode(response.body);
-
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: const Text(
+              "Change Password Success!",
+              style: TextStyle(color: neutral_10),
+            ),
+            backgroundColor: success_30,
+          ));
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => CustomBottomNavbar(
                     pageindex: 2,
@@ -173,13 +235,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   )));
         } else {
           print(response.statusCode);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: const Text(
-              "Change Password Success!",
-              style: TextStyle(color: neutral_10),
-            ),
-            backgroundColor: success_30,
-          ));
 
           print(
               "http://10.0.2.2:8000/api/customer/" + users[key].id.toString());

@@ -90,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              const ExploreDestinationPage()));
+                          builder: (context) => ExploreDestinationPage(
+                              user: widget.user, token: widget.token)));
                     },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(primary_40),
@@ -235,7 +235,6 @@ class EventList extends StatefulWidget {
   });
 
   final List<Event> events;
-  late List<Event> foundevents = [];
 
   @override
   State<EventList> createState() => _EventListState();
@@ -243,62 +242,19 @@ class EventList extends StatefulWidget {
 
 class _EventListState extends State<EventList> {
   @override
-  initState() {
-    widget.foundevents = widget.events;
-    super.initState();
-  }
-
-  void _runFilter(String enteredKeyword) {
-    List<Event> results = [];
-    if (enteredKeyword.isEmpty) {
-      results = widget.foundevents;
-    } else {
-      results = widget.foundevents
-          .where((user) => user.nama_event
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .toList();
-    }
-    setState(() {
-      widget.foundevents = results;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-      // SEARCH FIELD
-      SizedBox(
-        height: 56,
-        child: TextField(
-          onChanged: (value) => _runFilter(value),
-          style: text_base,
-          decoration: InputDecoration(
-            hintText: "Search Events...",
-            hintStyle: const TextStyle(color: neutral_40),
-            filled: true,
-            fillColor: neutral_20,
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: neutral_10),
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-      ),
-      const SizedBox(
-        height: 24,
-      ),
       SizedBox(
         height: 250,
-        child: widget.foundevents.isNotEmpty
+        child: widget.events.isNotEmpty
             ? ListView.builder(
-                itemCount: widget.foundevents.length,
+                itemCount: widget.events.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => DetailEventPage(
-                                event: widget.foundevents[index],
+                                event: widget.events[index],
                                 user: widget.user,
                                 token: widget.token,
                               )));
@@ -319,7 +275,7 @@ class _EventListState extends State<EventList> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image.network(
-                                      widget.foundevents[index].img_tempat,
+                                      widget.events[index].img_tempat,
                                       height: 200,
                                       width: 220,
                                       fit: BoxFit.cover,
@@ -335,41 +291,38 @@ class _EventListState extends State<EventList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                    child: widget.foundevents[index].nama_event
-                                                .length <
-                                            28
-                                        ? Text(
-                                            widget
-                                                .foundevents[index].nama_event,
-                                            style: text_base_bold,
-                                          )
-                                        : Text(
-                                            widget.foundevents[index].nama_event
-                                                    .substring(0, 23) +
-                                                '...',
-                                            style: text_base_bold,
-                                          )),
+                                    child:
+                                        widget.events[index].nama_event.length <
+                                                28
+                                            ? Text(
+                                                widget.events[index].nama_event,
+                                                style: text_base_bold,
+                                              )
+                                            : Text(
+                                                widget.events[index].nama_event
+                                                        .substring(0, 23) +
+                                                    '...',
+                                                style: text_base_bold,
+                                              )),
                                 const SizedBox(
                                   height: 4,
                                 ),
                                 Container(
-                                  child:
-                                      widget.foundevents[index].alamat.length <
-                                              38
-                                          ? Text(
-                                              widget.foundevents[index].alamat,
-                                              style: const TextStyle(
-                                                color: neutral_40,
-                                              ),
-                                            )
-                                          : Text(
-                                              widget.foundevents[index].alamat
-                                                      .substring(0, 34) +
-                                                  '...',
-                                              style: const TextStyle(
-                                                color: neutral_40,
-                                              ),
-                                            ),
+                                  child: widget.events[index].alamat.length < 38
+                                      ? Text(
+                                          widget.events[index].alamat,
+                                          style: const TextStyle(
+                                            color: neutral_40,
+                                          ),
+                                        )
+                                      : Text(
+                                          widget.events[index].alamat
+                                                  .substring(0, 34) +
+                                              '...',
+                                          style: const TextStyle(
+                                            color: neutral_40,
+                                          ),
+                                        ),
                                 )
                               ],
                             ),

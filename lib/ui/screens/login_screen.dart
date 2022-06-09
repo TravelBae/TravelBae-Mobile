@@ -41,6 +41,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   var unameController = TextEditingController();
   var passController = TextEditingController();
+  bool isHidden = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,12 +87,39 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Column(
                   children: [
-                    CustomFormField(
-                        controller: passController,
-                        label: "Password",
-                        key: const Key("_password"),
-                        placeholder: "Enter your password...",
-                        isPassword: true)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 12, bottom: 4),
+                          child: Text("Password", style: text_xs_bold),
+                        ),
+                        TextFormField(
+                          style: text_xs,
+                          controller: passController,
+                          obscureText: isHidden,
+                          decoration: InputDecoration(
+                              hintText: "Enter your password...",
+                              hintStyle: TextStyle(color: neutral_30),
+                              filled: true,
+                              fillColor: neutral_20,
+                              suffixIcon: IconButton(
+                                icon: isHidden
+                                    ? Icon(Icons.visibility_off)
+                                    : Icon(Icons.visibility),
+                                onPressed: togglePasswordVisibility,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: neutral_20),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: primary_20),
+                                borderRadius: BorderRadius.circular(8),
+                              )),
+                        ),
+                      ],
+                    )
                   ],
                 ),
                 const SizedBox(
@@ -142,6 +170,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  void togglePasswordVisibility() => setState(() => isHidden = !isHidden);
 
   Future<void> login() async {
     List<User> users;

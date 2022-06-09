@@ -1,5 +1,6 @@
 //Import library
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
 
 //Import Screen
@@ -25,8 +26,25 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
             //---TINGGAL EDIT DIBAWAH SINI---
             mainAxisSize: MainAxisSize.max,
             children: [
-              SizedBox(
-                height: 180,
+              const SizedBox(
+                height: 24,
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: SvgPicture.asset(
+                  iconBack,
+                  height: 32,
+                  width: 32,
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
+              const SizedBox(
+                height: 92,
               ),
               Text("Which one do you prefer?", style: text_2xl_bold),
               SizedBox(

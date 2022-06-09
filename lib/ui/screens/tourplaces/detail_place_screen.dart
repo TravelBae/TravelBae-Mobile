@@ -106,7 +106,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15))),
                             child: Text(
-                              widget.tourplace.kategori.toString(),
+                              widget.tourplace.tipe.toString(),
                               style: const TextStyle(
                                   fontSize: 14, color: neutral_10),
                             ),

@@ -198,7 +198,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         nohpController.text.isNotEmpty &&
         emailController.text.isNotEmpty) {
       var response = await http.put(
-          Uri.parse("http://10.0.2.2:8000/api/customer/" + key.toString()),
+          Uri.parse(
+              "http://10.0.2.2:8000/api/customer/" + users[key].id.toString()),
           body: ({
             'username': unameController.text,
             'email': emailController.text,
@@ -223,6 +224,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 )));
       } else {
         print(response.statusCode);
+        print("http://10.0.2.2:8000/api/customer/" + users[key].id.toString());
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text(
             "Something unexpected happened, please try again",

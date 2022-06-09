@@ -160,6 +160,14 @@ class _LoginScreenState extends State<LoginScreen> {
         String apiKey = data['token'];
         print("apiKey $apiKey");
 
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text(
+            "Login Success!",
+            style: TextStyle(color: neutral_10),
+          ),
+          backgroundColor: success_30,
+        ));
+
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('apiKey', apiKey);
 

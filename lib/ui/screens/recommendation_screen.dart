@@ -31,18 +31,6 @@ class _RecomendationScreenState extends State<RecomendationScreen> {
               ),
               Container(
                 alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ExploreDestinationPage()));
-                  },
-                  child: SvgPicture.asset(
-                    iconBack,
-                    height: 32,
-                    width: 32,
-                    fit: BoxFit.scaleDown,
-                  ),
-                ),
               ),
               SizedBox(
                 height: 66,

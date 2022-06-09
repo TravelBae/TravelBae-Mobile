@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
+import 'package:intl/intl.dart';
 
 //Import models
 import 'package:travelbae_android/models/event_model.dart';
@@ -28,6 +29,7 @@ class EventCheckoutPage extends StatefulWidget {
 
 class _EventCheckoutPageState extends State<EventCheckoutPage> {
   int _itemCount = 0;
+  final formatCurrency = new NumberFormat.simpleCurrency(locale: 'id_ID');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +102,7 @@ class _EventCheckoutPageState extends State<EventCheckoutPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          width: 250,
+                                          width: 230,
                                           child: Text(
                                             widget.event.nama_event,
                                             style: text_base_bold,
@@ -204,9 +206,7 @@ class _EventCheckoutPageState extends State<EventCheckoutPage> {
                             children: [
                               Text("Total", style: text_base_bold),
                               Text(
-                                  "Rp " +
-                                      (widget.event.harga * _itemCount)
-                                          .toString(),
+                                  '${formatCurrency.format(widget.event.harga * _itemCount)}',
                                   style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: bold,

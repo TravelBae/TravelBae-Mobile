@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
+import 'package:intl/intl.dart';
 
 //Import models
 import 'package:travelbae_android/models/event_model.dart';
@@ -26,6 +27,7 @@ class DetailEventPage extends StatefulWidget {
 }
 
 class _DetailEventPageState extends State<DetailEventPage> {
+  final formatCurrency = new NumberFormat.simpleCurrency(locale: 'id_ID');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +102,7 @@ class _DetailEventPageState extends State<DetailEventPage> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15))),
                             child: Text(
-                              widget.event.kategori.toString(),
+                              widget.event.tipe.toString(),
                               style: const TextStyle(
                                   fontSize: 14, color: neutral_10),
                             ),
@@ -211,7 +213,7 @@ class _DetailEventPageState extends State<DetailEventPage> {
                           ),
                         ),
                         Text(
-                          'Rp ' + widget.event.harga.toString(),
+                          '${formatCurrency.format(widget.event.harga)}',
                           style:
                               const TextStyle(fontSize: 23, color: neutral_60),
                         )

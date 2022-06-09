@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
+import 'package:intl/intl.dart';
 
 //Import models
 import 'package:travelbae_android/models/tourplace_model.dart';
@@ -30,6 +31,8 @@ class TourplaceCheckoutPage extends StatefulWidget {
 
 class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
   int _itemCount = 0;
+  final formatCurrency = new NumberFormat.simpleCurrency(locale: 'id_ID');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,8 +112,7 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                                           ),
                                         ),
                                         Text(
-                                          "Rp " +
-                                              widget.tourplace.harga.toString(),
+                                          '${formatCurrency.format(widget.tourplace.harga)}',
                                           style: text_base,
                                         ),
                                       ],
@@ -159,6 +161,9 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                             height: 8,
                           ),
                           const CustomDropdown(),
+                          const SizedBox(
+                            height: 16,
+                          ),
                           Text("Detail", style: text_base_bold),
                           const SizedBox(
                             height: 8,
@@ -178,8 +183,7 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                                             style: text_base),
                                       ),
                                       Text(
-                                          "Rp " +
-                                              widget.tourplace.harga.toString(),
+                                          '${formatCurrency.format(widget.tourplace.harga)}',
                                           style: text_base),
                                     ],
                                   ),
@@ -209,9 +213,7 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                             children: [
                               Text("Total", style: text_base_bold),
                               Text(
-                                  "Rp " +
-                                      (widget.tourplace.harga * _itemCount)
-                                          .toString(),
+                                  '${formatCurrency.format(widget.tourplace.harga * _itemCount)}',
                                   style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: bold,

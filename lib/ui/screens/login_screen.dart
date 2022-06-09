@@ -182,6 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   user: user,
                 )));
       } else {
+        print("test");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text(
             "Username or password is wrong, please try again",

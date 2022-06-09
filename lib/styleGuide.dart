@@ -103,3 +103,4 @@ const iconLocation = 'asets/icons/akar-icons_location.svg';
 const iconClock = 'asets/icons/uil_clock.svg';
 const iconMinus = 'asets/icons/tabler_square-minus.svg';
 const iconPlus = 'asets/icons/tabler_square-plus.svg';
+const iconCard = 'asets/icons/card.svg';

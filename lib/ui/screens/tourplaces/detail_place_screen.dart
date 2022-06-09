@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
+import 'package:intl/intl.dart';
 
 //Import models
 import 'package:travelbae_android/models/tourplace_model.dart';
@@ -29,6 +30,8 @@ class DetailPlacePage extends StatefulWidget {
 }
 
 class _DetailPlacePageState extends State<DetailPlacePage> {
+  final formatCurrency = new NumberFormat.simpleCurrency(locale: 'id_ID');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,7 +152,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                               child: SizedBox(
                                 width: 300,
                                 child: Text(widget.tourplace.alamat,
-                                    style: text_base),
+                                    style: text_sm),
                               )),
                         ],
                       ),
@@ -167,7 +170,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                               child: Text(
                                   widget.tourplace.jambuka.substring(0, 5) +
                                       ' WIB',
-                                  style: text_base)),
+                                  style: text_sm)),
                         ],
                       ),
                     ],
@@ -214,7 +217,7 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                           ),
                         ),
                         Text(
-                          'Rp ' + widget.tourplace.harga.toString(),
+                          '${formatCurrency.format(widget.tourplace.harga)}',
                           style:
                               const TextStyle(fontSize: 23, color: neutral_60),
                         )

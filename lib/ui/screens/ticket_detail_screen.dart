@@ -29,167 +29,192 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
           width: double.infinity, // container full
           margin: EdgeInsets.symmetric(horizontal: 24),
           color: neutral_10,
-          child: SingleChildScrollView(
-            child: Column(
-              //---TINGGAL EDIT DIBAWAH SINI---
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
+          child: Column(
+            //---TINGGAL EDIT DIBAWAH SINI---
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 32,
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CustomBottomNavbar(
+                            pageindex: 1,
+                            user: widget.user,
+                            token: widget.token,
+                          )));
+                },
+                child: SvgPicture.asset(
+                  iconBack,
                   height: 32,
+                  width: 32,
+                  fit: BoxFit.scaleDown,
                 ),
+              ),
 
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CustomBottomNavbar(
-                              pageindex: 1,
-                              user: widget.user,
-                              token: widget.token,
-                            )));
-                  },
-                  child: SvgPicture.asset(
-                    iconBack,
-                    height: 32,
-                    width: 32,
-                    fit: BoxFit.scaleDown,
-                  ),
-                ),
+              SizedBox(
+                height: 16,
+              ),
 
-                SizedBox(
-                  height: 16,
-                ),
+              // HEADER
+              Text("Ticket Detail", style: text_lg_bold),
+              SizedBox(
+                height: 32,
+              ),
 
-                // HEADER
-                Text("Ticket Detail", style: text_lg_bold),
-                SizedBox(
-                  height: 32,
-                ),
-
-                Text("Ticket", style: text_base_bold),
-                SizedBox(
-                  height: 8,
-                ),
-                // CARD LIST
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: neutral_20,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        padding: EdgeInsets.all(12),
-                        margin: EdgeInsets.only(bottom: 24),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Sawah Telkom",
-                                      style: text_base_bold,
-                                    ),
-                                    Text(
-                                      "Rp 150.000",
-                                      style: text_base,
-                                    ),
-                                  ],
-                                ),
-                              ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: neutral_20,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: primary_40,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(8),
+                              topLeft: Radius.circular(8),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      iconMinus,
-                                      height: 32,
-                                      width: 32,
-                                      fit: BoxFit.scaleDown,
-                                    ),
-                                    Text(
-                                      "2",
-                                      style: text_base_bold,
-                                    ),
-                                    SvgPicture.asset(
-                                      iconPlus,
-                                      height: 32,
-                                      width: 32,
-                                      fit: BoxFit.scaleDown,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text("Metode Pembayaran", style: text_base_bold),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      CustomDropdown(),
-                      Text("Detail", style: text_base_bold),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Container(
-                          margin: const EdgeInsets.only(left: 10),
+                          ),
+                          padding: EdgeInsets.all(16),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("Sawah Telkom", style: text_base),
-                                  Text("Rp 150.000", style: text_base),
-                                ],
+                              Text(
+                                "Sawah Telkom",
+                                style: TextStyle(
+                                  color: neutral_10,
+                                  fontSize: 20,
+                                  fontWeight: bold,
+                                ),
                               ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("Qty", style: text_base),
-                                  Text("2", style: text_base),
-                                ],
+                              Text(
+                                "Rp 150.000",
+                                style: TextStyle(color: neutral_10),
                               ),
                             ],
-                          )),
-                      SizedBox(
-                        height: 172,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "Order ID:",
+                                    style: text_base_bold,
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    "ID_203",
+                                    style: text_base,
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: neutral_40,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                padding: EdgeInsets.all(4),
+                                child: Text(
+                                  "Pending",
+                                  style: TextStyle(color: neutral_10),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text("Payment Detail", style: text_base_bold),
+              SizedBox(
+                height: 12,
+              ),
+              Container(
+                  margin: const EdgeInsets.only(left: 12),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Sawah Telkom", style: text_base),
+                          Text("Rp 150.000", style: text_base_bold),
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Total", style: text_base_bold),
-                          Text("Rp 150.000",
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: bold,
-                                  color: primary_40)),
+                          Text("Qty", style: text_base),
+                          Text("2", style: text_base_bold),
                         ],
                       ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      SizedBox(
-                        height: 32,
+                      Divider(color: neutral_50),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Total Pembayaran", style: text_base),
+                          Text("Rp 300.000", style: text_base_bold),
+                        ],
                       ),
                     ],
-                  ),
-                )
-              ],
-            ),
+                  )),
+              SizedBox(
+                height: 16,
+              ),
+              Text("Payment Method", style: text_base_bold),
+              Container(
+                margin: EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      iconCard,
+                      height: 24,
+                      width: 24,
+                      fit: BoxFit.scaleDown,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      "Bank Mandiri",
+                      style: text_base,
+                    ),
+                  ],
+                ),
+              ),
+              Text("Regulation", style: text_base_bold),
+              SizedBox(
+                height: 4,
+              ),
+              Text(
+                  "Untuk kenyamanan pengunjung, maka kami menyarankan beberapa hal seperti berikut.",
+                  style: TextStyle(color: neutral_40, fontSize: 12)),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                  "1. Membuang Sampah Pada Tempatnya. 2. Tidak Melakukan Tindakan Asusila. ",
+                  style: text_base),
+            ],
           ),
         ),
       ),

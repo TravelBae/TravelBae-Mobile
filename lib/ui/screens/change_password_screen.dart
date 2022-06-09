@@ -114,12 +114,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CustomBottomNavbar(
-                                  pageindex: 2,
-                                  user: widget.user,
-                                  token: widget.token,
-                                )));
+                        changepassword();
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(primary_40),
@@ -142,7 +137,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  Future<void> editprofil() async {
+  Future<void> changepassword() async {
     List<User> users;
     int i = 0;
     users = await fetchUser(http.Client(), widget.token);

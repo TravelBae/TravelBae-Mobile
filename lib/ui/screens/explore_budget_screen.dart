@@ -6,8 +6,21 @@ import 'package:travelbae_android/styleGuide.dart';
 //Import Screen
 import 'package:travelbae_android/ui/screens/recommendation_screen.dart';
 
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
 class ExploreBudgetPage extends StatefulWidget {
-  const ExploreBudgetPage({Key? key}) : super(key: key);
+  String token;
+  User user;
+  String type;
+  String kategori;
+  ExploreBudgetPage(
+      {required this.type,
+      required this.kategori,
+      required this.user,
+      required this.token,
+      Key? key})
+      : super(key: key);
 
   @override
   State<ExploreBudgetPage> createState() => _ExploreBudgetPageState();
@@ -25,6 +38,7 @@ class _ExploreBudgetPageState extends State<ExploreBudgetPage> {
           child: Column(
             //---TINGGAL EDIT DIBAWAH SINI---
             mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 24,
@@ -52,36 +66,87 @@ class _ExploreBudgetPageState extends State<ExploreBudgetPage> {
               ),
               Column(
                 children: [
-                  categoryOption(),
-                  categoryOption(),
-                  categoryOption(),
+                  Container(
+                    width: double.infinity,
+                    height: 52,
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => RecomendationScreen(
+                                type: widget.type,
+                                kategori: widget.kategori,
+                                budget: 1,
+                                token: widget.token,
+                                user: widget.user)));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(primary_40),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          "<= Rp50.000,00",
+                          style: text_base_bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 52,
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => RecomendationScreen(
+                                type: widget.type,
+                                kategori: widget.kategori,
+                                budget: 2,
+                                token: widget.token,
+                                user: widget.user)));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(primary_40),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          "> Rp50.000,00 & <= Rp150.000,00",
+                          style: text_base_bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 52,
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => RecomendationScreen(
+                                type: widget.type,
+                                kategori: widget.kategori,
+                                budget: 3,
+                                token: widget.token,
+                                user: widget.user)));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(primary_40),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          "> Rp150.000,00",
+                          style: text_base_bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               )
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget categoryOption() {
-    return Container(
-      width: double.infinity,
-      height: 52,
-      margin: EdgeInsets.only(bottom: 24),
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const RecomendationScreen()));
-        },
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(primary_40),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Text(
-            "Budget range",
-            style: text_base_bold,
           ),
         ),
       ),

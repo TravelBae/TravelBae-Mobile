@@ -45,6 +45,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   var passController = TextEditingController();
   var passconfirmationController = TextEditingController();
   bool isHidden = true;
+  bool isHidden_conf = true;
 
   @override
   Widget build(BuildContext context) {
@@ -135,17 +136,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     TextFormField(
                       style: text_xs,
                       controller: passconfirmationController,
-                      obscureText: isHidden,
+                      obscureText: isHidden_conf,
                       decoration: InputDecoration(
                           hintText: "Confirm your new password...",
                           hintStyle: TextStyle(color: neutral_30),
                           filled: true,
                           fillColor: neutral_20,
                           suffixIcon: IconButton(
-                            icon: isHidden
+                            icon: isHidden_conf
                                 ? Icon(Icons.visibility_off)
                                 : Icon(Icons.visibility),
-                            onPressed: togglePasswordVisibility,
+                            onPressed: togglePasswordVisibility2,
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: neutral_20),
@@ -192,6 +193,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   void togglePasswordVisibility() => setState(() => isHidden = !isHidden);
+  void togglePasswordVisibility2() =>
+      setState(() => isHidden_conf = !isHidden_conf);
 
   Future<void> changepassword() async {
     List<User> users;

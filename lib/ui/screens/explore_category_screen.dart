@@ -14,7 +14,6 @@ import 'package:travelbae_android/ui/screens/explore_budget_screen.dart';
 import 'package:travelbae_android/models/tourplace_model.dart';
 import 'package:travelbae_android/models/event_model.dart';
 import 'package:travelbae_android/models/user_model.dart';
-import 'package:travelbae_android/ui/screens/home_screen.dart';
 
 Future<List<Tourplace>> fetchTourplace(http.Client client, String token) async {
   final response = await client
@@ -126,7 +125,7 @@ class _ExploreCategoryPageState extends State<ExploreCategoryPage> {
                               child: Text('An error has occurred!'),
                             );
                           } else if (snapshot.hasData) {
-                            return EventList(
+                            return EventButton(
                               events: snapshot.data!,
                               user: widget.user,
                               token: widget.token,
@@ -168,6 +167,16 @@ class _TourplaceButtonState extends State<TourplaceButton> {
   late List<Tourplace> uniquetype = widget.tourplaces
       .where((tourplaces) => tipe.add(tourplaces.tipe))
       .toList();
+  var optionList = [];
+  void initState() {
+    super.initState();
+    while (optionList.length < 3) {
+      int option = Random().nextInt(uniquetype.length);
+      if (!optionList.contains(option)) {
+        optionList.add(option);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,10 +195,12 @@ class _TourplaceButtonState extends State<TourplaceButton> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ExploreCategoryPage(
-                                user: widget.user,
-                                token: widget.token,
-                                type: "Event")));
+                            builder: (context) => ExploreBudgetPage(
+                                  user: widget.user,
+                                  token: widget.token,
+                                  type: "Tourplace",
+                                  kategori: uniquetype[optionList[index]].tipe,
+                                )));
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(primary_40),
@@ -197,7 +208,80 @@ class _TourplaceButtonState extends State<TourplaceButton> {
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: Text(
-                          uniquetype[Random().nextInt(uniquetype.length)].tipe,
+                          uniquetype[optionList[index]].tipe,
+                          style: text_base_bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              })),
+    ]);
+  }
+}
+
+class EventButton extends StatefulWidget {
+  User user;
+  String token;
+  EventButton({
+    key,
+    required this.events,
+    required this.user,
+    required this.token,
+  });
+
+  final List<Event> events;
+
+  @override
+  State<EventButton> createState() => _EventButtonState();
+}
+
+class _EventButtonState extends State<EventButton> {
+  var tipe = <String>{};
+  late List<Event> uniquetype =
+      widget.events.where((events) => tipe.add(events.tipe)).toList();
+  var optionList = [];
+  void initState() {
+    super.initState();
+    while (optionList.length < 3) {
+      int option = Random().nextInt(uniquetype.length);
+      if (!optionList.contains(option)) {
+        optionList.add(option);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      SizedBox(
+          height: 250,
+          child: ListView.builder(
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: double.infinity,
+                    height: 52,
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ExploreBudgetPage(
+                                  user: widget.user,
+                                  token: widget.token,
+                                  type: "Event",
+                                  kategori: uniquetype[optionList[index]].tipe,
+                                )));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(primary_40),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          uniquetype[optionList[index]].tipe,
                           style: text_base_bold,
                         ),
                       ),

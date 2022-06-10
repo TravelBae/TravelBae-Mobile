@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 12,
                 ),
                 // Event
                 Row(
@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 12,
                 ),
                 // CARD RECOMENDATION
                 FutureBuilder<List<Tourplace>>(
@@ -246,97 +246,19 @@ class _EventListState extends State<EventList> {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       SizedBox(
         height: 250,
-        child: widget.events.isNotEmpty
-            ? ListView.builder(
-                itemCount: widget.events.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => DetailEventPage(
-                                event: widget.events[index],
-                                user: widget.user,
-                                token: widget.token,
-                              )));
-                    },
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Column(
-                              children: [
-                                Container(
-                                  height: 72,
-                                  width: 72,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: primary_30,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: Image.network(
-                                      widget.events[index].img_tempat,
-                                      height: 200,
-                                      width: 220,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                    child:
-                                        widget.events[index].nama_event.length <
-                                                28
-                                            ? Text(
-                                                widget.events[index].nama_event,
-                                                style: text_base_bold,
-                                              )
-                                            : Text(
-                                                widget.events[index].nama_event
-                                                        .substring(0, 23) +
-                                                    '...',
-                                                style: text_base_bold,
-                                              )),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Container(
-                                  child: widget.events[index].alamat.length < 38
-                                      ? Text(
-                                          widget.events[index].alamat,
-                                          style: const TextStyle(
-                                            color: neutral_40,
-                                          ),
-                                        )
-                                      : Text(
-                                          widget.events[index].alamat
-                                                  .substring(0, 34) +
-                                              '...',
-                                          style: const TextStyle(
-                                            color: neutral_40,
-                                          ),
-                                        ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                      ],
-                    ),
-                  );
-                })
-            : ListView(scrollDirection: Axis.vertical, children: <Widget>[
-                Column(
+        child: ListView.builder(
+            itemCount: widget.events.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => DetailEventPage(
+                            event: widget.events[index],
+                            user: widget.user,
+                            token: widget.token,
+                          )));
+                },
+                child: Column(
                   children: [
                     Row(
                       children: [
@@ -347,13 +269,15 @@ class _EventListState extends State<EventList> {
                               width: 72,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
+                                color: primary_30,
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
-                                child: Image.asset(
-                                  'asets/Logo.png',
-                                  height: 10,
-                                  width: 10,
+                                child: Image.network(
+                                  widget.events[index].img_tempat,
+                                  height: 200,
+                                  width: 220,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -365,13 +289,39 @@ class _EventListState extends State<EventList> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'No events found!',
-                              style: text_base_bold,
-                            ),
+                            Container(
+                                child:
+                                    widget.events[index].nama_event.length < 28
+                                        ? Text(
+                                            widget.events[index].nama_event,
+                                            style: text_base_bold,
+                                          )
+                                        : Text(
+                                            widget.events[index].nama_event
+                                                    .substring(0, 23) +
+                                                '...',
+                                            style: text_base_bold,
+                                          )),
                             const SizedBox(
                               height: 4,
                             ),
+                            Container(
+                              child: widget.events[index].alamat.length < 38
+                                  ? Text(
+                                      widget.events[index].alamat,
+                                      style: const TextStyle(
+                                        color: neutral_40,
+                                      ),
+                                    )
+                                  : Text(
+                                      widget.events[index].alamat
+                                              .substring(0, 34) +
+                                          '...',
+                                      style: const TextStyle(
+                                        color: neutral_40,
+                                      ),
+                                    ),
+                            )
                           ],
                         ),
                       ],
@@ -381,7 +331,8 @@ class _EventListState extends State<EventList> {
                     ),
                   ],
                 ),
-              ]),
+              );
+            }),
       ),
     ]);
   }
@@ -453,7 +404,7 @@ class _TourplaceCardState extends State<TourplaceCard> {
           ),
         ),
         const SizedBox(
-          height: 24,
+          height: 12,
         ),
         SizedBox(
           height: 290,

@@ -26,6 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var emailController = TextEditingController();
   var nohpController = TextEditingController();
   bool isHidden = true;
+  bool isHidden_conf = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,22 +151,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(top: 12, bottom: 4),
-                          child: Text("Password", style: text_xs_bold),
+                          child: Text("Confirm Password", style: text_xs_bold),
                         ),
                         TextFormField(
                           style: text_xs,
                           controller: passconfirmController,
-                          obscureText: isHidden,
+                          obscureText: isHidden_conf,
                           decoration: InputDecoration(
-                              hintText: "Enter your password...",
+                              hintText: "Confirm your password...",
                               hintStyle: TextStyle(color: neutral_30),
                               filled: true,
                               fillColor: neutral_20,
                               suffixIcon: IconButton(
-                                icon: isHidden
+                                icon: isHidden_conf
                                     ? Icon(Icons.visibility_off)
                                     : Icon(Icons.visibility),
-                                onPressed: togglePasswordVisibility,
+                                onPressed: togglePasswordVisibility2,
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: neutral_20),
@@ -214,6 +215,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void togglePasswordVisibility() => setState(() => isHidden = !isHidden);
+  void togglePasswordVisibility2() =>
+      setState(() => isHidden_conf = !isHidden_conf);
 
   Future<void> register() async {
     if (unameController.text.isNotEmpty &&
@@ -226,6 +229,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Uri.parse(
               "http://10.0.2.2:8000/api/register",
             ),
+            headers: {
+              'Accept': 'application/json',
+            },
             body: ({
               'username': unameController.text,
               'password': passController.text,
@@ -233,6 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               'email': emailController.text,
               'noHP': nohpController.text
             }));
+        print(response.body);
         if (response.statusCode == 200) {
           final data = jsonDecode(response.body);
           String apiKey = data['token'];
@@ -248,6 +255,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Duration(seconds: 3),
               () => Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => LoginScreen())));
+        } else if (response.statusCode == 422) {
+          final data = jsonDecode(response.body);
+          String errmsg = data['message'];
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              errmsg,
+              style: TextStyle(color: neutral_10),
+            ),
+            backgroundColor: danger_30,
+          ));
         } else {
           print(response.statusCode);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

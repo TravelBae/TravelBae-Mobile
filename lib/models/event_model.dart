@@ -1,7 +1,7 @@
 class Event {
   final int id;
   final String nama_event;
-  final String kategori;
+  final int kategori;
   final String tipe;
   final String regulasi;
   final int stok;
@@ -27,7 +27,7 @@ class Event {
     return Event(
       id: json['id'] as int,
       nama_event: json['nama_event'] as String,
-      kategori: json['kategori'] as String,
+      kategori: json['kategori'] as int,
       tipe: json['tipe'] as String,
       regulasi: json['regulasi'] as String,
       stok: json['stok'] as int,

@@ -122,13 +122,16 @@ class _RecomendationScreenState extends State<RecomendationScreen> {
                         },
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(neutral_40),
+                              MaterialStateProperty.all(neutral_20),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Text(
                             "Reset Preference",
-                            style: text_base_bold,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: bold,
+                                color: danger_20),
                           ),
                         ),
                       ),

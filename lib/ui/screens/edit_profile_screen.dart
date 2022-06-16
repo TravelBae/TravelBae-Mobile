@@ -44,6 +44,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   var unameController = TextEditingController();
   var emailController = TextEditingController();
   var nohpController = TextEditingController();
+  void initState() {
+    super.initState();
+    unameController.text = widget.user.username;
+    emailController.text = widget.user.email;
+    nohpController.text = widget.user.nohp;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,29 +95,95 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 Column(
                   children: [
-                    CustomFormField(
-                        controller: unameController,
-                        label: "Username",
-                        placeholder: widget.user.username,
-                        isPassword: false)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 12, bottom: 4),
+                          child: Text("Username", style: text_xs_bold),
+                        ),
+                        TextFormField(
+                          style: text_xs,
+                          controller: unameController,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                              hintText: "Enter your username",
+                              hintStyle: TextStyle(color: neutral_30),
+                              filled: true,
+                              fillColor: neutral_20,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: neutral_20),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: primary_20),
+                                borderRadius: BorderRadius.circular(8),
+                              )),
+                        ),
+                      ],
+                    )
                   ],
                 ),
                 Column(
                   children: [
-                    CustomFormField(
-                        controller: nohpController,
-                        label: "Phone Number",
-                        placeholder: widget.user.nohp,
-                        isPassword: false)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 12, bottom: 4),
+                          child: Text("Phone Number", style: text_xs_bold),
+                        ),
+                        TextFormField(
+                          style: text_xs,
+                          controller: nohpController,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                              hintText: "Enter your phone number",
+                              hintStyle: TextStyle(color: neutral_30),
+                              filled: true,
+                              fillColor: neutral_20,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: neutral_20),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: primary_20),
+                                borderRadius: BorderRadius.circular(8),
+                              )),
+                        ),
+                      ],
+                    )
                   ],
                 ),
                 Column(
                   children: [
-                    CustomFormField(
-                        controller: emailController,
-                        label: "Email",
-                        placeholder: widget.user.email,
-                        isPassword: false)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 12, bottom: 4),
+                          child: Text("Email", style: text_xs_bold),
+                        ),
+                        TextFormField(
+                          style: text_xs,
+                          controller: emailController,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                              hintText: "Enter your email",
+                              hintStyle: TextStyle(color: neutral_30),
+                              filled: true,
+                              fillColor: neutral_20,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: neutral_20),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: primary_20),
+                                borderRadius: BorderRadius.circular(8),
+                              )),
+                        ),
+                      ],
+                    )
                   ],
                 ),
                 const SizedBox(

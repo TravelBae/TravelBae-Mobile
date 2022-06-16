@@ -72,6 +72,13 @@ class MyOrderPage extends StatefulWidget {
 
 class _MyOrderPageState extends State<MyOrderPage> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchCustOrder(http.Client(), widget.token);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -98,21 +105,39 @@ class _MyOrderPageState extends State<MyOrderPage> {
                 // CARD LIST
                 FutureBuilder<List<Order>>(
                   future: fetchCustOrder(http.Client(), widget.token),
-                  builder: (context, snapshot) {
+                  builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.hasError) {
                       print(snapshot.error);
                       return const Center(
                         child: Text('An error has occurred!'),
                       );
                     } else if (snapshot.hasData) {
+                      return Center(
+                        // child: CircularProgressIndicator(),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 32,
+                            ),
+                            Image.asset(
+                              'asets/illus/illus-5.png',
+                              height: 272,
+                            ),
+                            SizedBox(
+                              height: 24,
+                            ),
+                            Text(
+                              "Looks like you haven't made your order yet",
+                              style: text_lg_bold,
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
                       return CardTicket(
                         orders: snapshot.data!,
                         user: widget.user,
                         token: widget.token,
-                      );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
                       );
                     }
                   },

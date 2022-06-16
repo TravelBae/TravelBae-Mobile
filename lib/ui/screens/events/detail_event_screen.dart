@@ -233,15 +233,19 @@ class _DetailEventPageState extends State<DetailEventPage> {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => EventCheckoutPage(
-                                  event: widget.event,
-                                  user: widget.user,
-                                  token: widget.token,
-                                )));
+                        widget.event.stok == 0
+                            ? null
+                            : Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => EventCheckoutPage(
+                                      event: widget.event,
+                                      user: widget.user,
+                                      token: widget.token,
+                                    )));
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(primary_40),
+                        backgroundColor: MaterialStateProperty.all(
+                          widget.event.stok != 0 ? primary_40 : neutral_30,
+                        ),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8),

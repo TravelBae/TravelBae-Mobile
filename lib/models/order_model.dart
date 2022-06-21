@@ -8,18 +8,19 @@ class Order {
   final String tanggal_beli;
   final int total_bayar;
   final int total_tiket;
+  final String bank;
 
-  const Order({
-    required this.id,
-    required this.id_customer,
-    required this.id_tempat,
-    required this.id_event,
-    required this.nama_customer,
-    required this.order_status,
-    required this.tanggal_beli,
-    required this.total_bayar,
-    required this.total_tiket,
-  });
+  const Order(
+      {required this.id,
+      required this.id_customer,
+      required this.id_tempat,
+      required this.id_event,
+      required this.nama_customer,
+      required this.order_status,
+      required this.tanggal_beli,
+      required this.total_bayar,
+      required this.total_tiket,
+      required this.bank});
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
@@ -32,6 +33,7 @@ class Order {
       tanggal_beli: json['tanggal_beli'] as String,
       total_bayar: json['total_bayar'] as int,
       total_tiket: json['total_tiket'] as int,
+      bank: json['bank'] as String,
     );
   }
 }

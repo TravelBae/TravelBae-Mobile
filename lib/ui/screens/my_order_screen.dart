@@ -148,14 +148,14 @@ class _CardTicketState extends State<CardTicket> {
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       SizedBox(
-        height: 250,
+        height: 575,
         child: ListView.builder(
             itemCount: widget.orders.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: widget.orders[index].id_event != 9999
+                      builder: widget.orders[index].id_event != 1
                           ? (context) => TicketDetailPage(
                                 user: widget.user,
                                 token: widget.token,
@@ -210,7 +210,7 @@ class _CardTicketState extends State<CardTicket> {
                           Container(
                             decoration: BoxDecoration(
                               color: widget.orders[index].order_status ==
-                                      "unconfirmed"
+                                      "Unconfirmed"
                                   ? neutral_40
                                   : success_30,
                               borderRadius: BorderRadius.circular(4),
@@ -236,7 +236,7 @@ class _CardTicketState extends State<CardTicket> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          widget.orders[index].id_event != 9999
+                          widget.orders[index].id_event != 1
                               ? FutureBuilder<List<Event>>(
                                   future:
                                       fetchEvent(http.Client(), widget.token),

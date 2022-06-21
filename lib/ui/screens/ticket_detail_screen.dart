@@ -121,13 +121,13 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                           );
                         } else if (snapshot.hasData) {
                           return TicketDetail(
-                            user: widget.user,
-                            token: widget.token,
-                            order: widget.order,
-                            tipe: widget.type,
-                            nama: snapshot
-                                .data![widget.order.id_event - 1].nama_event,
-                          );
+                              user: widget.user,
+                              token: widget.token,
+                              order: widget.order,
+                              tipe: widget.type,
+                              nama: snapshot
+                                  .data![widget.order.id_event - 1].nama_event,
+                              bank: widget.order.bank);
                         } else {
                           return const Center(
                             child: CircularProgressIndicator(),
@@ -144,13 +144,13 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                           );
                         } else if (snapshot.hasData) {
                           return TicketDetail(
-                            user: widget.user,
-                            token: widget.token,
-                            order: widget.order,
-                            tipe: widget.type,
-                            nama: snapshot
-                                .data![widget.order.id_tempat - 1].nama_tempat,
-                          );
+                              user: widget.user,
+                              token: widget.token,
+                              order: widget.order,
+                              tipe: widget.type,
+                              nama: snapshot.data![widget.order.id_tempat - 1]
+                                  .nama_tempat,
+                              bank: widget.order.bank);
                         } else {
                           return const Center(
                             child: CircularProgressIndicator(),
@@ -172,14 +172,15 @@ class TicketDetail extends StatefulWidget {
   Order order;
   String tipe;
   String nama;
-  TicketDetail({
-    key,
-    required this.user,
-    required this.token,
-    required this.order,
-    required this.tipe,
-    required this.nama,
-  });
+  String bank;
+  TicketDetail(
+      {key,
+      required this.user,
+      required this.token,
+      required this.order,
+      required this.tipe,
+      required this.nama,
+      required this.bank});
 
   @override
   State<TicketDetail> createState() => _TicketDetailState();
@@ -254,7 +255,7 @@ class _TicketDetailState extends State<TicketDetail> {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                              color: widget.order.order_status == "unconfirmed"
+                              color: widget.order.order_status == "Unconfirmed"
                                   ? neutral_40
                                   : success_30,
                               borderRadius: BorderRadius.circular(4),
@@ -287,7 +288,7 @@ class _TicketDetailState extends State<TicketDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Sawah Telkom", style: text_base),
+                      Text(widget.nama, style: text_base),
                       Text(
                           formatCurrency.format(widget.order.total_bayar /
                               widget.order.total_tiket),
@@ -331,25 +332,12 @@ class _TicketDetailState extends State<TicketDetail> {
                   width: 8,
                 ),
                 Text(
-                  "Bank Mandiri",
+                  widget.bank,
                   style: text_base,
                 ),
               ],
             ),
           ),
-          Text("Regulation", style: text_base_bold),
-          const SizedBox(
-            height: 4,
-          ),
-          const Text(
-              "Untuk kenyamanan pengunjung, maka kami menyarankan beberapa hal seperti berikut.",
-              style: TextStyle(color: neutral_40, fontSize: 12)),
-          const SizedBox(
-            height: 12,
-          ),
-          Text(
-              "1. Membuang Sampah Pada Tempatnya. 2. Tidak Melakukan Tindakan Asusila. ",
-              style: text_base),
         ]);
   }
 }

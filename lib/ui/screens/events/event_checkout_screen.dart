@@ -1,6 +1,7 @@
 //Import library
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
 import 'package:intl/intl.dart';
@@ -28,6 +29,15 @@ class EventCheckoutPage extends StatefulWidget {
 }
 
 class _EventCheckoutPageState extends State<EventCheckoutPage> {
+  String dropdownValue = 'Mandiri';
+  String holder = '';
+  List<String> dropList = ['Mandiri', 'Gopay', 'Shopeepay', 'BCA'];
+  void getDropDownItem() {
+    setState(() {
+      holder = dropdownValue;
+    });
+  }
+
   int _itemCount = 0;
   final formatCurrency = new NumberFormat.simpleCurrency(locale: 'id_ID');
   @override
@@ -109,7 +119,7 @@ class _EventCheckoutPageState extends State<EventCheckoutPage> {
                                           ),
                                         ),
                                         Text(
-                                          "Rp " + widget.event.harga.toString(),
+                                          '${formatCurrency.format(widget.event.harga)}',
                                           style: text_base,
                                         ),
                                       ],
@@ -157,7 +167,45 @@ class _EventCheckoutPageState extends State<EventCheckoutPage> {
                           const SizedBox(
                             height: 8,
                           ),
-                          const CustomDropdown(),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: neutral_40, width: 1),
+                            ),
+                            padding: EdgeInsets.only(left: 12),
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  iconCard,
+                                  height: 24,
+                                  width: 24,
+                                  fit: BoxFit.scaleDown,
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                    value: dropdownValue,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue!;
+                                      });
+                                    },
+                                    items: dropList
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           Text("Detail", style: text_base_bold),
                           const SizedBox(
                             height: 8,
@@ -171,12 +219,12 @@ class _EventCheckoutPageState extends State<EventCheckoutPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       SizedBox(
-                                        width: 250,
+                                        width: 200,
                                         child: Text(widget.event.nama_event,
                                             style: text_base),
                                       ),
                                       Text(
-                                          "Rp " + widget.event.harga.toString(),
+                                          '${formatCurrency.format(widget.event.harga)}',
                                           style: text_base),
                                     ],
                                   ),
@@ -222,13 +270,14 @@ class _EventCheckoutPageState extends State<EventCheckoutPage> {
                             child: ElevatedButton(
                               onPressed: _itemCount != 0
                                   ? () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SuccessScreen(
-                                                    user: widget.user,
-                                                    token: widget.token,
-                                                  )));
+                                      checkout(
+                                          widget.user,
+                                          widget.token,
+                                          1,
+                                          widget.event.id,
+                                          (widget.event.harga * _itemCount),
+                                          _itemCount,
+                                          dropdownValue);
                                     }
                                   : () {
                                       ScaffoldMessenger.of(context)
@@ -265,5 +314,59 @@ class _EventCheckoutPageState extends State<EventCheckoutPage> {
         ),
       ),
     ));
+  }
+
+  Future<void> checkout(User user, String token, int id_tempat, int id_event,
+      int total_bayar, int total_tiket, String bank) async {
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formatted = formatter.format(now);
+    var response = await http.post(
+        Uri.parse(
+          "http://10.0.2.2:8000/api/customer/order/create",
+        ),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: ({
+          "id_customer": user.id.toString(),
+          "id_tempat": id_tempat.toString(),
+          "id_event": id_event.toString(),
+          "nama_customer": user.username,
+          "order_status": "Unconfirmed",
+          "tanggal_beli": formatted,
+          "total_bayar": total_bayar.toString(),
+          "total_tiket": total_tiket.toString(),
+          "bank": bank
+        }));
+    print(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(response.statusCode);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => SuccessScreen(
+                token: token,
+                user: user,
+              )));
+    } else if (response.statusCode == 422) {
+      final data = jsonDecode(response.body);
+      String errmsg = data['message'];
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          errmsg,
+          style: TextStyle(color: neutral_10),
+        ),
+        backgroundColor: danger_30,
+      ));
+    } else {
+      print(response.statusCode);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const Text(
+          "Something unexpected happened, please try again",
+          style: TextStyle(color: neutral_10),
+        ),
+        backgroundColor: danger_30,
+      ));
+    }
   }
 }

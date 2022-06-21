@@ -247,13 +247,13 @@ class _EventListState extends State<EventList> {
       SizedBox(
         height: 250,
         child: ListView.builder(
-            itemCount: widget.events.length,
+            itemCount: widget.events.length - 1,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => DetailEventPage(
-                            event: widget.events[index],
+                            event: widget.events[index + 1],
                             user: widget.user,
                             token: widget.token,
                           )));
@@ -274,7 +274,7 @@ class _EventListState extends State<EventList> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
                                 child: Image.network(
-                                  widget.events[index].img_tempat,
+                                  widget.events[index + 1].img_tempat,
                                   height: 200,
                                   width: 220,
                                   fit: BoxFit.cover,
@@ -291,13 +291,14 @@ class _EventListState extends State<EventList> {
                           children: [
                             Container(
                                 child:
-                                    widget.events[index].nama_event.length < 28
+                                    widget.events[index + 1].nama_event.length <
+                                            28
                                         ? Text(
-                                            widget.events[index].nama_event,
+                                            widget.events[index + 1].nama_event,
                                             style: text_base_bold,
                                           )
                                         : Text(
-                                            widget.events[index].nama_event
+                                            widget.events[index + 1].nama_event
                                                     .substring(0, 23) +
                                                 '...',
                                             style: text_base_bold,
@@ -306,15 +307,15 @@ class _EventListState extends State<EventList> {
                               height: 4,
                             ),
                             Container(
-                              child: widget.events[index].alamat.length < 38
+                              child: widget.events[index + 1].alamat.length < 38
                                   ? Text(
-                                      widget.events[index].alamat,
+                                      widget.events[index + 1].alamat,
                                       style: const TextStyle(
                                         color: neutral_40,
                                       ),
                                     )
                                   : Text(
-                                      widget.events[index].alamat
+                                      widget.events[index + 1].alamat
                                               .substring(0, 34) +
                                           '...',
                                       style: const TextStyle(
@@ -411,86 +412,192 @@ class _TourplaceCardState extends State<TourplaceCard> {
           child: widget.foundtourplaces.isNotEmpty
               ? ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: widget.foundtourplaces.length,
+                  itemCount: widget.foundtourplaces[0].id != 1
+                      ? widget.foundtourplaces.length
+                      : widget.foundtourplaces.length - 1,
                   itemBuilder: (context, index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: neutral_30, width: 1),
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => DetailPlacePage(
-                                  tourplace: widget.foundtourplaces[index],
-                                  user: widget.user,
-                                  token: widget.token)));
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(16),
-                                  topRight: Radius.circular(16)),
-                              child: Image.network(
-                                widget.foundtourplaces[index].img_tempat,
-                                height: 200,
-                                width: 220,
-                                fit: BoxFit.cover,
-                              ),
+                    return widget.foundtourplaces[0].id != 1
+                        ? Card(
+                            shape: RoundedRectangleBorder(
+                              side:
+                                  const BorderSide(color: neutral_30, width: 1),
+                              borderRadius: BorderRadius.circular(16.0),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(12),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => DetailPlacePage(
+                                        tourplace:
+                                            widget.foundtourplaces[index],
+                                        user: widget.user,
+                                        token: widget.token)));
+                              },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                      child: widget.foundtourplaces[index]
-                                                  .nama_tempat.length <
-                                              28
-                                          ? Text(
-                                              widget.foundtourplaces[index]
-                                                  .nama_tempat,
-                                              style: text_base_bold,
-                                            )
-                                          : Text(
-                                              widget.foundtourplaces[index]
-                                                      .nama_tempat
-                                                      .substring(0, 23) +
-                                                  '...',
-                                              style: text_base_bold,
-                                            )),
-                                  const SizedBox(
-                                    height: 4,
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(16),
+                                        topRight: Radius.circular(16)),
+                                    child: Image.network(
+                                      widget.foundtourplaces[index].img_tempat,
+                                      height: 200,
+                                      width: 220,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                  Container(
-                                    child: widget.foundtourplaces[index].alamat
-                                                .length <
-                                            28
-                                        ? Text(
-                                            widget
-                                                .foundtourplaces[index].alamat,
-                                            style: const TextStyle(
-                                              color: neutral_40,
-                                            ),
-                                          )
-                                        : Text(
-                                            widget.foundtourplaces[index].alamat
-                                                    .substring(0, 28) +
-                                                '...',
-                                            style: const TextStyle(
-                                              color: neutral_40,
-                                            ),
-                                          ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            child: widget.foundtourplaces[index]
+                                                        .nama_tempat.length <
+                                                    28
+                                                ? Text(
+                                                    widget
+                                                        .foundtourplaces[index]
+                                                        .nama_tempat,
+                                                    style: text_base_bold,
+                                                  )
+                                                : Text(
+                                                    widget
+                                                            .foundtourplaces[
+                                                                index]
+                                                            .nama_tempat
+                                                            .substring(0, 23) +
+                                                        '...',
+                                                    style: text_base_bold,
+                                                  )),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        Container(
+                                          child: widget.foundtourplaces[index]
+                                                      .alamat.length <
+                                                  28
+                                              ? Text(
+                                                  widget.foundtourplaces[index]
+                                                      .alamat,
+                                                  style: const TextStyle(
+                                                    color: neutral_40,
+                                                  ),
+                                                )
+                                              : Text(
+                                                  widget.foundtourplaces[index]
+                                                          .alamat
+                                                          .substring(0, 28) +
+                                                      '...',
+                                                  style: const TextStyle(
+                                                    color: neutral_40,
+                                                  ),
+                                                ),
+                                        )
+                                      ],
+                                    ),
                                   )
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
+                            ),
+                          )
+                        : Card(
+                            shape: RoundedRectangleBorder(
+                              side:
+                                  const BorderSide(color: neutral_30, width: 1),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => DetailPlacePage(
+                                        tourplace:
+                                            widget.foundtourplaces[index + 1],
+                                        user: widget.user,
+                                        token: widget.token)));
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(16),
+                                        topRight: Radius.circular(16)),
+                                    child: Image.network(
+                                      widget.foundtourplaces[index + 1]
+                                          .img_tempat,
+                                      height: 200,
+                                      width: 220,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            child: widget
+                                                        .foundtourplaces[
+                                                            index + 1]
+                                                        .nama_tempat
+                                                        .length <
+                                                    28
+                                                ? Text(
+                                                    widget
+                                                        .foundtourplaces[
+                                                            index + 1]
+                                                        .nama_tempat,
+                                                    style: text_base_bold,
+                                                  )
+                                                : Text(
+                                                    widget
+                                                            .foundtourplaces[
+                                                                index + 1]
+                                                            .nama_tempat
+                                                            .substring(0, 23) +
+                                                        '...',
+                                                    style: text_base_bold,
+                                                  )),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        Container(
+                                          child:
+                                              widget.foundtourplaces[index + 1]
+                                                          .alamat.length <
+                                                      28
+                                                  ? Text(
+                                                      widget
+                                                          .foundtourplaces[
+                                                              index + 1]
+                                                          .alamat,
+                                                      style: const TextStyle(
+                                                        color: neutral_40,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      widget
+                                                              .foundtourplaces[
+                                                                  index + 1]
+                                                              .alamat
+                                                              .substring(
+                                                                  0, 28) +
+                                                          '...',
+                                                      style: const TextStyle(
+                                                        color: neutral_40,
+                                                      ),
+                                                    ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
                   })
               : ListView(scrollDirection: Axis.horizontal, children: <Widget>[
                   Card(

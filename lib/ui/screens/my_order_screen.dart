@@ -112,32 +112,14 @@ class _MyOrderPageState extends State<MyOrderPage> {
                         child: Text('An error has occurred!'),
                       );
                     } else if (snapshot.hasData) {
-                      return Center(
-                        // child: CircularProgressIndicator(),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 32,
-                            ),
-                            Image.asset(
-                              'asets/illus/illus-5.png',
-                              height: 272,
-                            ),
-                            SizedBox(
-                              height: 24,
-                            ),
-                            Text(
-                              "Looks like you haven't made your order yet",
-                              style: text_lg_bold,
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
                       return CardTicket(
                         orders: snapshot.data!,
                         user: widget.user,
                         token: widget.token,
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
                       );
                     }
                   },
@@ -174,189 +156,218 @@ class _CardTicketState extends State<CardTicket> {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       SizedBox(
         height: 575,
-        child: ListView.builder(
-            itemCount: widget.orders.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: widget.orders[index].id_event != 1
-                          ? (context) => TicketDetailPage(
-                                user: widget.user,
-                                token: widget.token,
-                                type: "Event",
-                                index: widget.orders[index].id_event,
-                                order: widget.orders[index],
-                              )
-                          : (context) => TicketDetailPage(
-                                user: widget.user,
-                                token: widget.token,
-                                type: "Tourplace",
-                                index: widget.orders[index].id_tempat,
-                                order: widget.orders[index],
-                              )));
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: neutral_20,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  margin: const EdgeInsets.only(bottom: 24),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                ticket,
-                                height: 24,
-                                width: 24,
-                                fit: BoxFit.scaleDown,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                "Order ID:",
-                                style: text_base_bold,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                "ID_" + widget.orders[index].id.toString(),
-                                style: text_base,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: widget.orders[index].order_status ==
-                                      "Unconfirmed"
-                                  ? neutral_40
-                                  : success_30,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            padding: const EdgeInsets.all(6),
-                            child: Text(
-                              widget.orders[index].order_status,
-                              style: const TextStyle(color: neutral_10),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(top: 12),
-                        decoration: const BoxDecoration(
-                            border: Border(
-                                bottom:
-                                    BorderSide(color: neutral_30, width: 1))),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          widget.orders[index].id_event != 1
-                              ? FutureBuilder<List<Event>>(
-                                  future:
-                                      fetchEvent(http.Client(), widget.token),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasError) {
-                                      return const Center(
-                                        child: Text('An error has occurred!'),
-                                      );
-                                    } else if (snapshot.hasData) {
-                                      return snapshot
-                                                  .data![widget.orders[index]
-                                                          .id_event -
-                                                      1]
-                                                  .nama_event
-                                                  .length <
-                                              23
-                                          ? Text(
-                                              snapshot
-                                                  .data![widget.orders[index]
-                                                          .id_event -
-                                                      1]
-                                                  .nama_event,
-                                              style: text_lg_bold,
-                                            )
-                                          : Text(
-                                              snapshot
-                                                      .data![widget
-                                                              .orders[index]
-                                                              .id_event -
-                                                          1]
-                                                      .nama_event
-                                                      .substring(0, 19) +
-                                                  "...",
-                                              style: text_lg_bold,
-                                            );
-                                    } else {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
-                                  },
-                                )
-                              : FutureBuilder<List<Tourplace>>(
-                                  future: fetchTourplace(
-                                      http.Client(), widget.token),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasError) {
-                                      return const Center(
-                                        child: Text('An error has occurred!'),
-                                      );
-                                    } else if (snapshot.hasData) {
-                                      return snapshot
-                                                  .data![widget.orders[index]
-                                                          .id_tempat -
-                                                      1]
-                                                  .nama_tempat
-                                                  .length <
-                                              23
-                                          ? Text(
-                                              snapshot
-                                                  .data![widget.orders[index]
-                                                          .id_tempat -
-                                                      1]
-                                                  .nama_tempat,
-                                              style: text_lg_bold,
-                                            )
-                                          : Text(
-                                              snapshot
-                                                      .data![widget
-                                                              .orders[index]
-                                                              .id_tempat -
-                                                          1]
-                                                      .nama_tempat
-                                                      .substring(0, 19) +
-                                                  "...",
-                                              style: text_lg_bold,
-                                            );
-                                    } else {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
-                                  },
+        child: widget.orders.isNotEmpty
+            ? ListView.builder(
+                itemCount: widget.orders.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: widget.orders[index].id_event != 1
+                                ? (context) => TicketDetailPage(
+                                      user: widget.user,
+                                      token: widget.token,
+                                      type: "Event",
+                                      index: widget.orders[index].id_event,
+                                      order: widget.orders[index],
+                                    )
+                                : (context) => TicketDetailPage(
+                                      user: widget.user,
+                                      token: widget.token,
+                                      type: "Tourplace",
+                                      index: widget.orders[index].id_tempat,
+                                      order: widget.orders[index],
+                                    )));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: neutral_20,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        padding: const EdgeInsets.all(12),
+                        margin: const EdgeInsets.only(bottom: 24),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      ticket,
+                                      height: 24,
+                                      width: 24,
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      "Order ID:",
+                                      style: text_base_bold,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      "ID_" +
+                                          widget.orders[index].id.toString(),
+                                      style: text_base,
+                                    ),
+                                  ],
                                 ),
-                          Text(
-                            widget.orders[index].tanggal_beli,
-                            style: text_sm,
-                          ),
-                        ],
-                      ),
-                    ],
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: widget.orders[index].order_status ==
+                                            "Unconfirmed"
+                                        ? neutral_40
+                                        : success_30,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  padding: const EdgeInsets.all(6),
+                                  child: Text(
+                                    widget.orders[index].order_status,
+                                    style: const TextStyle(color: neutral_10),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only(top: 12),
+                              decoration: const BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: neutral_30, width: 1))),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                widget.orders[index].id_event != 1
+                                    ? FutureBuilder<List<Event>>(
+                                        future: fetchEvent(
+                                            http.Client(), widget.token),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasError) {
+                                            return const Center(
+                                              child: Text(
+                                                  'An error has occurred!'),
+                                            );
+                                          } else if (snapshot.hasData) {
+                                            return snapshot
+                                                        .data![widget
+                                                                .orders[index]
+                                                                .id_event -
+                                                            1]
+                                                        .nama_event
+                                                        .length <
+                                                    23
+                                                ? Text(
+                                                    snapshot
+                                                        .data![widget
+                                                                .orders[index]
+                                                                .id_event -
+                                                            1]
+                                                        .nama_event,
+                                                    style: text_lg_bold,
+                                                  )
+                                                : Text(
+                                                    snapshot
+                                                            .data![widget
+                                                                    .orders[
+                                                                        index]
+                                                                    .id_event -
+                                                                1]
+                                                            .nama_event
+                                                            .substring(0, 19) +
+                                                        "...",
+                                                    style: text_lg_bold,
+                                                  );
+                                          } else {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
+                                        },
+                                      )
+                                    : FutureBuilder<List<Tourplace>>(
+                                        future: fetchTourplace(
+                                            http.Client(), widget.token),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasError) {
+                                            return const Center(
+                                              child: Text(
+                                                  'An error has occurred!'),
+                                            );
+                                          } else if (snapshot.hasData) {
+                                            return snapshot
+                                                        .data![widget
+                                                                .orders[index]
+                                                                .id_tempat -
+                                                            1]
+                                                        .nama_tempat
+                                                        .length <
+                                                    23
+                                                ? Text(
+                                                    snapshot
+                                                        .data![widget
+                                                                .orders[index]
+                                                                .id_tempat -
+                                                            1]
+                                                        .nama_tempat,
+                                                    style: text_lg_bold,
+                                                  )
+                                                : Text(
+                                                    snapshot
+                                                            .data![widget
+                                                                    .orders[
+                                                                        index]
+                                                                    .id_tempat -
+                                                                1]
+                                                            .nama_tempat
+                                                            .substring(0, 19) +
+                                                        "...",
+                                                    style: text_lg_bold,
+                                                  );
+                                          } else {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                Text(
+                                  widget.orders[index].tanggal_beli,
+                                  style: text_sm,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ));
+                })
+            : Column(
+                children: [
+                  SizedBox(
+                    height: 32,
                   ),
-                ),
-              );
-            }),
+                  Image.asset(
+                    'asets/illus/illus-5.png',
+                    height: 272,
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Text(
+                    "Looks like you haven't made your order yet",
+                    style: text_lg_bold,
+                  ),
+                ],
+              ),
       ),
     ]);
   }

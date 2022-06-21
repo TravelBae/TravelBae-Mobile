@@ -150,8 +150,11 @@ class _EventCheckoutPageState extends State<EventCheckoutPage> {
                                           style: text_base_bold,
                                         ),
                                         GestureDetector(
-                                          onTap: () =>
-                                              setState(() => _itemCount++),
+                                          onTap: () {
+                                            _itemCount == widget.event.stok
+                                                ? null
+                                                : setState(() => _itemCount++);
+                                          },
                                           child: SvgPicture.asset(
                                             iconPlus,
                                             height: 32,

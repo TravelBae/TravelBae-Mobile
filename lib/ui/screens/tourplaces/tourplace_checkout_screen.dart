@@ -154,8 +154,12 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                                           style: text_base_bold,
                                         ),
                                         GestureDetector(
-                                          onTap: () =>
-                                              setState(() => _itemCount++),
+                                          onTap: () {
+                                            _itemCount ==
+                                                    widget.tourplace.stoktiket
+                                                ? null
+                                                : setState(() => _itemCount++);
+                                          },
                                           child: SvgPicture.asset(
                                             iconPlus,
                                             height: 32,

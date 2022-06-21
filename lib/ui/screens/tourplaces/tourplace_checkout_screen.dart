@@ -137,8 +137,11 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                                     Row(
                                       children: [
                                         GestureDetector(
-                                          onTap: () =>
-                                              setState(() => _itemCount--),
+                                          onTap: () {
+                                            _itemCount == 0
+                                                ? null
+                                                : setState(() => _itemCount--);
+                                          },
                                           child: SvgPicture.asset(
                                             iconMinus,
                                             height: 32,
@@ -298,8 +301,9 @@ class _TourplaceCheckoutPageState extends State<TourplaceCheckoutPage> {
                                       ));
                                     },
                               style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(primary_40),
+                                backgroundColor: MaterialStateProperty.all(
+                                  _itemCount != 0 ? primary_40 : neutral_30,
+                                ),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8),

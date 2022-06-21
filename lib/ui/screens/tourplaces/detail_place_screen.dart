@@ -237,15 +237,21 @@ class _DetailPlacePageState extends State<DetailPlacePage> {
                     height: 48,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => TourplaceCheckoutPage(
-                                  tourplace: widget.tourplace,
-                                  user: widget.user,
-                                  token: widget.token,
-                                )));
+                        widget.tourplace.stoktiket == 0
+                            ? null
+                            : Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => TourplaceCheckoutPage(
+                                      tourplace: widget.tourplace,
+                                      user: widget.user,
+                                      token: widget.token,
+                                    )));
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(primary_40),
+                        backgroundColor: MaterialStateProperty.all(
+                          widget.tourplace.stoktiket != 0
+                              ? primary_40
+                              : neutral_30,
+                        ),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8),

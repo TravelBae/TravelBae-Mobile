@@ -1,29 +1,47 @@
+//Import library
 import 'package:flutter/material.dart';
 import 'package:travelbae_android/styleGuide.dart';
+
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
 import 'package:travelbae_android/ui/screens/home_screen.dart';
 import 'package:travelbae_android/ui/screens/profile_screen.dart';
 import 'package:travelbae_android/ui/screens/my_order_screen.dart';
 
 class CustomBottomNavbar extends StatefulWidget {
-  const CustomBottomNavbar({Key? key}) : super(key: key);
+  User user;
+  int pageindex;
+  String token;
+  CustomBottomNavbar(
+      {required this.pageindex,
+      required this.user,
+      required this.token,
+      Key? key})
+      : super(key: key);
 
   @override
   State<CustomBottomNavbar> createState() => _CustomBottomNavbarState();
 }
 
 class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
-  int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    MyOrderPage(),
-    ProfileScreen(),
-  ];
+  late List<Widget> _widgetOptions;
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions = [
+      HomeScreen(user: widget.user, token: widget.token),
+      MyOrderPage(user: widget.user, token: widget.token),
+      ProfileScreen(user: widget.user, token: widget.token),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      widget.pageindex = index;
     });
   }
 
@@ -31,7 +49,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.elementAt(widget.pageindex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -48,7 +66,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
             label: 'Profile',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: widget.pageindex,
         selectedItemColor: primary_40,
         unselectedItemColor: neutral_40,
         onTap: _onItemTapped,

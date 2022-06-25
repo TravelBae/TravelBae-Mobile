@@ -1,9 +1,21 @@
+//Import library
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travelbae_android/styleGuide.dart';
 
+//Import models
+import 'package:travelbae_android/models/user_model.dart';
+
+//Import Screen
+import 'package:travelbae_android/ui/screens/edit_profile_screen.dart';
+import 'package:travelbae_android/ui/screens/change_password_screen.dart';
+import 'package:travelbae_android/ui/screens/login_screen.dart';
+
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  User user;
+  String token;
+  ProfileScreen({required this.user, required this.token, Key? key})
+      : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -62,7 +74,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => EditProfileScreen(
+                              user: widget.user,
+                              token: widget.token,
+                            )));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(neutral_20),
                   ),
@@ -92,7 +110,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ChangePasswordScreen(
+                              user: widget.user,
+                              token: widget.token,
+                            )));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(neutral_20),
                   ),
@@ -122,7 +146,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(neutral_20),
                   ),

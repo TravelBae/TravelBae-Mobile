@@ -248,6 +248,9 @@ class _EventButtonState extends State<EventButton> {
     super.initState();
     while (optionList.length < 3) {
       int option = Random().nextInt(uniquetype.length);
+      while (option == 0) {
+        option = Random().nextInt(uniquetype.length);
+      }
       if (!optionList.contains(option)) {
         optionList.add(option);
       }
